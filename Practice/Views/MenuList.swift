@@ -5,15 +5,34 @@
 //  Created by Andrew Landiak on 19.04.2021.
 //
 
+//struct ContentView: View {
+//    var body: some View {
+//        TabView {
+//            CardsScreen()
+//                .tabItem { Label("Home", systemImage: "house") }
+//            VStack {}
+//                .tabItem { Label("Statistic", systemImage: "table") }
+//            VStack {}
+//                .tabItem { Label("Wallet", systemImage: "dollarsign.square") }
+//            VStack {}
+//                .tabItem { Label("Profile", systemImage: "person") }
+//        }
+//    }
+//}
+
 import SwiftUI
 
 struct MenuList: View {
     
     @ObservedObject var transactionVM = TransactionListViewModel()
+    
     @State private var areYouGoingToIncomeView = false
     @State private var areYouGoingToOutcomeView = false
     
     var body: some View {
+        let dictionary = transactionVM.groupBy()
+        let keys = dictionary.map {$0.key}
+        let values = dictionary.map {$0.value}
         NavigationView {
             List {
                 Group {
@@ -35,7 +54,7 @@ struct MenuList: View {
                             Button(action: {
                                 areYouGoingToOutcomeView = true
                                 areYouGoingToIncomeView = false
-                                print(areYouGoingToOutcomeView)
+
                                 refreshData()
                             }, label: {
                                 Image(systemName: "minus.circle")
@@ -46,17 +65,23 @@ struct MenuList: View {
                             }
                         )
                 }
-                Group {
-                    ForEach(self.transactionVM.transactions.indices, id: \.self) { idx in
-                        Section(header: (Text(String(idx)))) {
-                            NavigationLink(
-                                destination: Edit(transactionVM: transactionVM, idx: idx)) {
-
-                                    MenuCell(transactionVM: self.transactionVM.transactions[idx]).shadow(radius:10)
-                                }
-                        }
-                    }.onDelete(perform: delete(at:))
-                }
+//                Group {
+//                    ForEach(keys.indices) { index in
+//                        Section(header: Text(keys)) {
+//                            Text(values)
+//                        }
+//                    }
+//                }
+//                Group {
+//                    ForEach(self.transactionVM.transactions.indices, id: \.self) { idx in
+//                        Section(header: (Text(String(transactionVM.transactions[idx].correctDate)))) {
+//                            NavigationLink(
+//                                destination: Edit(transactionVM: transactionVM, idx: idx)) {
+//                                MenuCell(transactionVM: self.transactionVM.transactions[idx]).shadow(radius:10)
+//                                }
+//                        }
+//                    }.onDelete(perform: delete(at:))
+//                }
             }
             .navigationBarHidden(true)
             .navigationBarTitle("")
@@ -65,7 +90,6 @@ struct MenuList: View {
             refreshData()
         }
     }
-    
     
     func refreshData() {
         self.transactionVM.fetchAllTransaction()

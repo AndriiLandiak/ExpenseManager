@@ -17,17 +17,17 @@ class TransactionViewModel {
     var category: String
     var commentary: String
     
-    var monthFormatter: DateFormatter = {
+    var monthAndDayFormatter: DateFormatter = {
         let f = DateFormatter()
         f.dateStyle = .long
-        f.dateFormat = "MMMM"
+        f.dateFormat = "d MMMM"
         return f
     }()
-    
-    var dayFormatter: DateFormatter = {
+
+    var yearFormatter: DateFormatter = {
         let f = DateFormatter()
         f.dateStyle = .short
-        f.dateFormat = "dd"
+        f.dateFormat = "y"
         return f
     }()
     
@@ -38,17 +38,22 @@ class TransactionViewModel {
         return f
     }()
     
+    var correctDate: String {
+        let year = Calendar.current.component(.year, from: Date())
+        if year == Int(yearString) { return monthString + ", " + dayInWeekString }
+        else { return monthString + " " + yearString + ", " + dayInWeekString}
+    }
+    
     var monthString: String {
-        return monthFormatter.string(from: date)
+        return monthAndDayFormatter.string(from: date).lowercased()
     }
     
-    var dayString: String {
-        return dayFormatter.string(from: date)
-    }
     var dayInWeekString: String {
-        return dayWeekFormatter.string(from: date)
+        return dayWeekFormatter.string(from: date).lowercased()
     }
-    
+    var yearString: String {
+        return yearFormatter.string(from: date)
+    }
 
     
     init(transaction: Transaction) {

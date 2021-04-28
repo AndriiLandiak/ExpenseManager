@@ -13,7 +13,7 @@ struct MenuCell: View {
     var transactionVM: TransactionViewModel
     var body: some View {
         HStack(alignment: .center, spacing: 0) {
-            Text(transactionVM.monthString + transactionVM.dayString + transactionVM.dayInWeekString).padding(.leading).font(.system(size: 30))
+            Text("\u{1F4F0}").padding(.leading).font(.system(size: 30))
             VStack(alignment: .leading, spacing: -5) {
                 Text("Платежі, комісії").font(.system(size: 18))
                 HStack(alignment: .center, spacing: 0) {

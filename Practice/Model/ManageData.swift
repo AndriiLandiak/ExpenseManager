@@ -19,6 +19,7 @@ public class ManageData {
     private init(moc: NSManagedObjectContext) {
         self.managedContext = moc
     }
+    
     func getAllTrasaction() -> [Transaction] {
         var transfer = [Transaction]()
         let bdRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
@@ -83,4 +84,3 @@ extension NSManagedObjectContext {
         return appDelegate.persistentContainer.viewContext
     }
 }
-
