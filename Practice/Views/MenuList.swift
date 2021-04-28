@@ -10,55 +10,63 @@ import SwiftUI
 struct MenuList: View {
     
     @ObservedObject var transactionVM = TransactionListViewModel()
-    
-    @State var areYouGoingToIncomeView: Bool
-    @State var areYouGoingToOutcomeView: Bool
+    @State private var areYouGoingToIncomeView = false
+    @State private var areYouGoingToOutcomeView = false
     
     var body: some View {
         NavigationView {
             List {
                 Group {
-                    HStack {
-                        NavigationLink(destination: Income(transactionVM: transactionVM), isActive: $areYouGoingToIncomeView) {
-                            Text("To income")
-//                            areYouGoingToIncomeView = false
-                        }
-                        NavigationLink(destination: Outcome(transactionVM: transactionVM), isActive: $areYouGoingToOutcomeView) {
-                            EmptyView()
-                            Text("To outcome")
-//                            areYouGoingToOutcomeView = false
-                        }
-//                        Button(action: {
-//                            self.areYouGoingToIncomeView = true
-//                        }, label: {
-//                            Image(systemName: "plus.circle.fill")
-//                        })
-//                        Spacer()
-//                        Button(action: {
-//                            self.areYouGoingToOutcomeView = true
-//                        }, label: {
-//                            Image(systemName: "minus.circle.fill")
-//                        })
-                    }.onAppear() {
-                        refreshData()
-                    }
+                        VStack(alignment: .leading) {
+                            Button(action: {
+                                areYouGoingToIncomeView = true
+                                areYouGoingToOutcomeView = false
+                                print(areYouGoingToIncomeView)
+                                refreshData()
+                            }, label: {
+                                Image(systemName: "plus.circle")
+                            })
+                        }.background(
+                            NavigationLink(destination: Income(addNewPresented: $areYouGoingToIncomeView), isActive: $areYouGoingToIncomeView) {
+                                Income(addNewPresented: $areYouGoingToIncomeView)
+                            }
+                        )
+                        VStack(alignment: .trailing) {
+                            Button(action: {
+                                areYouGoingToOutcomeView = true
+                                areYouGoingToIncomeView = false
+                                print(areYouGoingToOutcomeView)
+                                refreshData()
+                            }, label: {
+                                Image(systemName: "minus.circle")
+                            })
+                        }.background(
+                            NavigationLink(destination: Outcome(addNewPresented: $areYouGoingToOutcomeView), isActive: $areYouGoingToOutcomeView) {
+                                Outcome(addNewPresented: $areYouGoingToOutcomeView)
+                            }
+                        )
                 }
                 Group {
                     ForEach(self.transactionVM.transactions.indices, id: \.self) { idx in
-                        NavigationLink(
-                            destination: Edit(transactionVM: transactionVM, idx: idx)) {
-                            Print(type(of: idx))
-                                MenuCell(transactionVM: self.transactionVM.transactions[idx]).shadow(radius:10)
-                            }
+                        Section(header: (Text(String(idx)))) {
+                            NavigationLink(
+                                destination: Edit(transactionVM: transactionVM, idx: idx)) {
+
+                                    MenuCell(transactionVM: self.transactionVM.transactions[idx]).shadow(radius:10)
+                                }
+                        }
                     }.onDelete(perform: delete(at:))
-                    
                 }
             }
             .navigationBarHidden(true)
             .navigationBarTitle("")
         }
-        
+        .onAppear {
+            refreshData()
+        }
     }
+    
+    
     func refreshData() {
         self.transactionVM.fetchAllTransaction()
     }

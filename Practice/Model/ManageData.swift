@@ -22,7 +22,8 @@ public class ManageData {
     func getAllTrasaction() -> [Transaction] {
         var transfer = [Transaction]()
         let bdRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
-        
+        let sdSortDate = NSSortDescriptor.init(key: "date", ascending: false)
+        bdRequest.sortDescriptors = [sdSortDate]
         do {
             transfer = try self.managedContext.fetch(bdRequest)
         } catch {

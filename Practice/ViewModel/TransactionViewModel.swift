@@ -19,8 +19,8 @@ class TransactionViewModel {
     
     var monthFormatter: DateFormatter = {
         let f = DateFormatter()
-        f.dateStyle = .short
-        f.dateFormat = "MMM"
+        f.dateStyle = .long
+        f.dateFormat = "MMMM"
         return f
     }()
     
@@ -31,12 +31,32 @@ class TransactionViewModel {
         return f
     }()
     
+    var dayWeekFormatter: DateFormatter = {
+        let f = DateFormatter()
+        f.dateStyle = .short
+        f.dateFormat = "EEEE"
+        return f
+    }()
+    
     var monthString: String {
         return monthFormatter.string(from: date)
     }
     
     var dayString: String {
         return dayFormatter.string(from: date)
+    }
+    var dayInWeekString: String {
+        return dayWeekFormatter.string(from: date)
+    }
+    
+
+    
+    init(transaction: Transaction) {
+        self.id = transaction.id ?? UUID()
+        self.sum = transaction.sum
+        self.date = transaction.date ?? Date()
+        self.category = transaction.category ?? ""
+        self.commentary = transaction.commentary ?? ""
     }
     
     init(id: UUID, sum: Double, date: Date, category: String, commentary: String) {
@@ -45,13 +65,5 @@ class TransactionViewModel {
         self.date = date
         self.category = category
         self.commentary = commentary
-    }
-    
-    init(transaction: Transaction) {
-        self.id = transaction.id ?? UUID()
-        self.sum = transaction.sum
-        self.date = transaction.date ?? Date()
-        self.category = transaction.category ?? ""
-        self.commentary = transaction.commentary ?? ""
     }
 }
