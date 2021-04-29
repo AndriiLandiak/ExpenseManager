@@ -21,6 +21,7 @@ class TransactionListViewModel: ObservableObject {
         }
         return a
     }
+
     func fetchAllTransaction() {
         self.transactions = ManageData.shared.getAllTrasaction().map(TransactionViewModel.init)
     }

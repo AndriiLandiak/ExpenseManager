@@ -52,6 +52,7 @@ struct MenuList: View {
                         )
                         VStack(alignment: .trailing) {
                             Button(action: {
+                                print(dictionary)
                                 areYouGoingToOutcomeView = true
                                 areYouGoingToIncomeView = false
 
@@ -72,16 +73,16 @@ struct MenuList: View {
 //                        }
 //                    }
 //                }
-//                Group {
-//                    ForEach(self.transactionVM.transactions.indices, id: \.self) { idx in
-//                        Section(header: (Text(String(transactionVM.transactions[idx].correctDate)))) {
-//                            NavigationLink(
-//                                destination: Edit(transactionVM: transactionVM, idx: idx)) {
-//                                MenuCell(transactionVM: self.transactionVM.transactions[idx]).shadow(radius:10)
-//                                }
-//                        }
-//                    }.onDelete(perform: delete(at:))
-//                }
+                Group {
+                    ForEach(self.transactionVM.transactions.indices, id: \.self) { idx in
+                        Section(header: (Text(String(transactionVM.transactions[idx].correctDate)))) {
+                            NavigationLink(
+                                destination: Edit(transactionVM: transactionVM, idx: idx)) {
+                                MenuCell(transactionVM: self.transactionVM.transactions[idx]).shadow(radius:10)
+                                }
+                        }
+                    }.onDelete(perform: delete(at:))
+                }
             }
             .navigationBarHidden(true)
             .navigationBarTitle("")
