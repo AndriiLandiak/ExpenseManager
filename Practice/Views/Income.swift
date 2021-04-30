@@ -18,6 +18,7 @@ class AddNewIncome: ObservableObject {
 struct Income: View {
     
     @Binding var addNewPresented: Bool
+    @State var addNewCategory: Bool
     private let viewModel = AddIncomeViewModel()
     @ObservedObject var newData = AddNewIncome()
     
@@ -29,8 +30,17 @@ struct Income: View {
                 TextField("0", text: $newData.sum).keyboardType(.numberPad).multilineTextAlignment(.trailing)
             }
             HStack {
-                Text("Різні категорії")
+                Button(action: {
+                    self.addNewCategory = true
+                }) {
+                    Image(systemName: "plus.circle")
+                        .font(.title)
+                        .foregroundColor(.black)
+                }.sheet(isPresented: $addNewCategory) {
+                    CategoryView(addNewCategory: self.$addNewCategory)
+                }
             }
+                
             HStack {
                 Image(systemName: "calendar")
                 DatePicker("", selection: $newData.date, in: ...Date(), displayedComponents: .date).position(x: 70, y: 16).labelsHidden()

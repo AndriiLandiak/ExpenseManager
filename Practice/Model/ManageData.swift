@@ -20,6 +20,7 @@ public class ManageData {
         self.managedContext = moc
     }
     
+    
     func getAllTrasaction() -> [Transaction] {
         var transfer = [Transaction]()
         let bdRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
@@ -70,6 +71,54 @@ public class ManageData {
             trsfrs?.sum = sum
             trsfrs?.category = category
             trsfrs?.commentary = commentary
+            try self.managedContext.save()
+        } catch {
+            print(error)
+        }
+    }
+    
+    func getAllCategory() -> [CatEntity] {
+        var category = [CatEntity]()
+        let bdRequest: NSFetchRequest<CatEntity> = CatEntity.fetchRequest()
+        do {
+            category = try self.managedContext.fetch(bdRequest)
+        } catch {
+            print(error)
+        }
+        return category
+    }
+    
+    func addCategory(id: UUID, name: String) {
+        let t = CatEntity(context: self.managedContext)
+        t.id = id
+        t.name = name
+        do {
+            try self.managedContext.save()
+        } catch {
+            print(error)
+        }
+    }
+    
+    func removeCategory(id: UUID) {
+        let fetchRequest: NSFetchRequest<CatEntity> = CatEntity.fetchRequest()
+        fetchRequest.predicate = NSPredicate.init(format: "id=%@", id.uuidString)
+        do {
+            let bdays = try self.managedContext.fetch(fetchRequest)
+            for bday in bdays {
+                self.managedContext.delete(bday)
+            }
+            try self.managedContext.save()
+        } catch {
+          print(error)
+        }
+    }
+    
+    func updateCategory(id: UUID, name:String) {
+        let fetchRequest: NSFetchRequest<CatEntity> = CatEntity.fetchRequest()
+        fetchRequest.predicate = NSPredicate.init(format: "id=%@", id.uuidString)
+        do {
+            let trsfrs = try self.managedContext.fetch(fetchRequest).first
+            trsfrs?.name = name
             try self.managedContext.save()
         } catch {
             print(error)

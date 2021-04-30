@@ -5,34 +5,21 @@
 //  Created by Andrew Landiak on 19.04.2021.
 //
 
-//struct ContentView: View {
-//    var body: some View {
-//        TabView {
-//            CardsScreen()
-//                .tabItem { Label("Home", systemImage: "house") }
-//            VStack {}
-//                .tabItem { Label("Statistic", systemImage: "table") }
-//            VStack {}
-//                .tabItem { Label("Wallet", systemImage: "dollarsign.square") }
-//            VStack {}
-//                .tabItem { Label("Profile", systemImage: "person") }
-//        }
-//    }
-//}
 
 import SwiftUI
 
-struct MenuList: View {
+struct ContentView: View {
     
     @ObservedObject var transactionVM = TransactionListViewModel()
     
+    @State private var newCategory = false
     @State private var areYouGoingToIncomeView = false
     @State private var areYouGoingToOutcomeView = false
     
     var body: some View {
-        let dictionary = transactionVM.groupBy()
-        let keys = dictionary.map {$0.key}
-        let values = dictionary.map {$0.value}
+//        let dictionary = transactionVM.groupBy()
+//        let keys = dictionary.map {$0.key}
+//        let values = dictionary.map {$0.value}
         NavigationView {
             List {
                 Group {
@@ -46,13 +33,12 @@ struct MenuList: View {
                                 Image(systemName: "plus.circle")
                             })
                         }.background(
-                            NavigationLink(destination: Income(addNewPresented: $areYouGoingToIncomeView), isActive: $areYouGoingToIncomeView) {
-                                Income(addNewPresented: $areYouGoingToIncomeView)
+                            NavigationLink(destination: Income(addNewPresented: $areYouGoingToIncomeView, addNewCategory: newCategory), isActive: $areYouGoingToIncomeView) {
+                                Income(addNewPresented: $areYouGoingToIncomeView, addNewCategory: newCategory)
                             }
                         )
                         VStack(alignment: .trailing) {
                             Button(action: {
-                                print(dictionary)
                                 areYouGoingToOutcomeView = true
                                 areYouGoingToIncomeView = false
 
@@ -84,8 +70,7 @@ struct MenuList: View {
                     }.onDelete(perform: delete(at:))
                 }
             }
-            .navigationBarHidden(true)
-            .navigationBarTitle("")
+            .navigationBarTitle(Text("Main"), displayMode: .inline)
         }
         .onAppear {
             refreshData()
@@ -115,5 +100,27 @@ struct HeaderList: View {
     var body: some View {
             Text("Hello, world!")
                 .padding()
+    }
+}
+
+struct MenuList: View {
+    
+    init() {
+        UITabBar.appearance().barTintColor = UIColor.white
+    }
+    var body: some View {
+            TabView {
+                VStack {}
+                    .tabItem { Label("Account", systemImage: "house") }
+                ContentView()
+                    .tabItem { Label("Transaction", systemImage: "arrow.left.arrow.right.circle") }
+                PieChartView(
+                    values: [1300, 500, 300, 400, 500, 600, 700, 800],
+                    names: ["Rent", "Transport", "Education", "Rent", "Transport", "Education", "Rent", "Transport"],
+                    formatter: {value in String(format: "%.2f", value)})
+                    .tabItem { Label("Analytics", systemImage: "banknote") }
+            }.colorMultiply(.white)
+            .edgesIgnoringSafeArea(.top)
+            .accentColor(.black)
     }
 }
