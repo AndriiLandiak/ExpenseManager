@@ -37,7 +37,7 @@ struct Income: View {
                         .font(.title)
                         .foregroundColor(.black)
                 }.sheet(isPresented: $addNewCategory) {
-                    CategoryView(addNewCategory: self.$addNewCategory)
+                    CategoryView()
                 }
             }
                 

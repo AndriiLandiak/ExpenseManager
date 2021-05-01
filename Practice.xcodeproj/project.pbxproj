@@ -30,6 +30,7 @@
 		666493BA263C429E00552C46 /* CategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666493B9263C429E00552C46 /* CategoryView.swift */; };
 		666493C0263C60F100552C46 /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666493BF263C60F100552C46 /* CategoryCell.swift */; };
 		666493C3263C6C6D00552C46 /* CategoryDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666493C2263C6C6D00552C46 /* CategoryDetail.swift */; };
+		666493C5263D52E600552C46 /* AddNewCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666493C4263D52E500552C46 /* AddNewCategoryView.swift */; };
 		66E485EC2639582500C99854 /* AddOutcomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E485EB2639582500C99854 /* AddOutcomeViewModel.swift */; };
 /* End PBXBuildFile section */
 
@@ -59,6 +60,7 @@
 		666493B9263C429E00552C46 /* CategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryView.swift; sourceTree = "<group>"; };
 		666493BF263C60F100552C46 /* CategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
 		666493C2263C6C6D00552C46 /* CategoryDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryDetail.swift; sourceTree = "<group>"; };
+		666493C4263D52E500552C46 /* AddNewCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewCategoryView.swift; sourceTree = "<group>"; };
 		66E485EB2639582500C99854 /* AddOutcomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddOutcomeViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -92,6 +94,7 @@
 				666493B9263C429E00552C46 /* CategoryView.swift */,
 				666493BF263C60F100552C46 /* CategoryCell.swift */,
 				666493C2263C6C6D00552C46 /* CategoryDetail.swift */,
+				666493C4263D52E500552C46 /* AddNewCategoryView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -256,6 +259,7 @@
 				666493AA263C23A700552C46 /* PieChartView.swift in Sources */,
 				66E485EC2639582500C99854 /* AddOutcomeViewModel.swift in Sources */,
 				6628029E2633247D00B8BD59 /* Income.swift in Sources */,
+				666493C5263D52E600552C46 /* AddNewCategoryView.swift in Sources */,
 				6647B10A262DC4290021CEA0 /* SceneDelegate.swift in Sources */,
 				6600DEF826384C8A00B5E806 /* AddIncomeViewModel.swift in Sources */,
 				662802A12633248B00B8BD59 /* Outcome.swift in Sources */,

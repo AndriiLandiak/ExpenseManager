@@ -27,7 +27,6 @@ struct ContentView: View {
                             Button(action: {
                                 areYouGoingToIncomeView = true
                                 areYouGoingToOutcomeView = false
-                                print(areYouGoingToIncomeView)
                                 refreshData()
                             }, label: {
                                 Image(systemName: "plus.circle")
@@ -71,9 +70,9 @@ struct ContentView: View {
                 }
             }
             .navigationBarTitle(Text("Main"), displayMode: .inline)
-        }
-        .onAppear {
-            refreshData()
+            .onAppear {
+                refreshData()
+            }
         }
     }
     
