@@ -103,42 +103,22 @@ struct HeaderList: View {
 }
 
 struct MenuList: View {
-    @ObservedObject var transactionVM = TransactionListViewModel()
     
     init() {
         UITabBar.appearance().barTintColor = UIColor.white
-        refreshData()
     }
     var body: some View {
             TabView {
                 AccountView(addNewCategory: false)
                     .tabItem { Label("Account", systemImage: "house")
-                        Print("Pidar")
-                        Print(transactionVM.transactions.count)
                     }
                 ContentView()
                     .tabItem { Label("Transaction", systemImage: "arrow.left.arrow.right.circle")
-                        Print("Pidar")
                     }
-                PieChartView(
-                    values: Array(transactionVM.takeDictionary().values),
-                    names: Array(transactionVM.takeDictionary().keys),
-                    formatter: {value in String(format: "%.2f", value)})
-                    .tabItem { Label("Analytics", systemImage: "banknote") }.onTapGesture {
-                        refreshData()
-                    }
+                DiagramView()
+                    .tabItem { Label("Analytics", systemImage: "banknote") }
             }.colorMultiply(.white)
             .edgesIgnoringSafeArea(.top)
             .accentColor(.black)
-    }
-    
-    func refreshData() {
-        self.transactionVM.fetchAllTransaction()
-    }
-    func delete(at offsets: IndexSet) {
-        for index in offsets {
-            self.transactionVM.removeTransaction(at: index)
-        }
-        refreshData()
     }
 }
