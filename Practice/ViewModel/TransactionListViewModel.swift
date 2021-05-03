@@ -21,6 +21,20 @@ class TransactionListViewModel: ObservableObject {
         }
         return a
     }
+    
+    func takeDictionary() -> [String:Double] {
+        var emptyDict: [String: Double] = [:]
+        for el in transactions {
+            if el.sum < 0 && !emptyDict.keys.contains(el.category) {
+                emptyDict[el.category] = -el.sum
+            } else if el.sum < 0, let zalupa = emptyDict[el.category] {
+                emptyDict[el.category] = zalupa + (-el.sum)
+            } else {
+                continue
+            }
+        }
+        return emptyDict
+    }
 
     func fetchAllTransaction() {
         self.transactions = ManageData.shared.getAllTrasaction().map(TransactionViewModel.init)

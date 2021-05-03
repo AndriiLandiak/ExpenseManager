@@ -11,7 +11,7 @@ import SwiftUI
 import Combine
 
 
-class CategoryViewModel {
+struct CategoryViewModel {
     var id: UUID
     var name: String
     

@@ -16,16 +16,18 @@ struct CategoryView: View {
     
     @State var isPlaying : Bool = false //for image pencil
     @State var addNewCat : Bool = false
+    
+    @State private var selectedFrameworkIndex = 0 // pick category we want
 
     var body: some View {
         NavigationView {
-            List {
+            List() {
                 ForEach(self.categoryVM.categories.indices, id: \.self) { idx in
-                       NavigationLink(
-                        destination: CategoryDetail(transactionVM: categoryVM.categories[idx], categoryName:  categoryVM.categories[idx].name)) {
-                        CategoryCell(transactionVM: categoryVM.categories[idx])
-                       }
-                }.onDelete(perform:delete(at:))
+                           NavigationLink(
+                            destination: CategoryDetail(transactionVM: categoryVM.categories[idx], categoryName:  categoryVM.categories[idx].name)) {
+                            CategoryCell(transactionVM: categoryVM.categories[idx])
+                           }
+                    }.onDelete(perform:delete(at:))
             }.onAppear() {
                 refreshCategory()
             }.navigationBarTitle(Text("Categories"), displayMode: .inline)
@@ -34,13 +36,6 @@ struct CategoryView: View {
                     HStack {
                         NavigationLink(destination: AddNewCategoryView()) {
                             Image(systemName: "plus")
-                        }
-                    }
-                    HStack {
-                        Button(action: {
-                           self.isPlaying.toggle()
-                        }) {
-                            Image(systemName: self.isPlaying == true ? "pencil.slash" : "pencil")
                         }
                     }
                 }

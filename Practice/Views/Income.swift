@@ -1,5 +1,5 @@
 //
-//  Income.swift
+//  Outcome.swift
 //  Practice
 //
 //  Created by Andrew Landiak on 23.04.2021.
@@ -8,7 +8,7 @@
 import SwiftUI
 import UIKit
 
-class AddNewIncome: ObservableObject {
+class AddNewOutcome: ObservableObject {
     @Published var commentary: String = ""
     @Published var sum: String = ""
     @Published var date = Date()
@@ -18,9 +18,8 @@ class AddNewIncome: ObservableObject {
 struct Income: View {
     
     @Binding var addNewPresented: Bool
-    @State var addNewCategory: Bool
     private let viewModel = AddIncomeViewModel()
-    @ObservedObject var newData = AddNewIncome()
+    @ObservedObject var newData = AddNewOutcome()
     
     var body: some View {
         Form {
@@ -30,17 +29,8 @@ struct Income: View {
                 TextField("0", text: $newData.sum).keyboardType(.numberPad).multilineTextAlignment(.trailing)
             }
             HStack {
-                Button(action: {
-                    self.addNewCategory = true
-                }) {
-                    Image(systemName: "plus.circle")
-                        .font(.title)
-                        .foregroundColor(.black)
-                }.sheet(isPresented: $addNewCategory) {
-                    CategoryView()
-                }
+                Text("Різні категорії")
             }
-                
             HStack {
                 Image(systemName: "calendar")
                 DatePicker("", selection: $newData.date, in: ...Date(), displayedComponents: .date).position(x: 70, y: 16).labelsHidden()
@@ -63,14 +53,5 @@ struct Income: View {
         viewModel.addTransaction(transaction: transaction23)
         addNewPresented.toggle()
     }
-    private func endEditing() {
-        UIApplication.shared.endEditing()
-    }
 
-}
-
-extension UIApplication {
-    func endEditing() {
-        sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-    }
 }

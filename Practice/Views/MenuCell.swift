@@ -11,34 +11,37 @@ import SwiftUI
 struct MenuCell: View {
     var transactionVM: TransactionViewModel
     var body: some View {
-        HStack(alignment: .center, spacing: 0) {
+        HStack(alignment: .center, spacing: 50) {
             VStack {
-                Image(systemName: "book").font(.system(size: 30)).position(x: 35,y: 40)
-            }.frame(width: 50, height: 50, alignment: .leading).position(x: 0, y: 11)
+                Image(systemName: "book").font(.system(size: 30))
+            }.frame(width: 70, height: 50, alignment: .center)
+            .position(x: 15, y: 25)
             VStack(alignment: .leading, spacing: 0) {
-                HStack {
-                    Spacer()
-                    Text("Cafe & restaurant").font(.system(size: 18))
-                    Spacer()
-                    Text(String(transactionVM.sum))
-                        .frame(minWidth:50, maxWidth: 100)
-                        .font(.system(size: 18))
-                        .frame(alignment: .trailing)
+                HStack(alignment: .center) {
+                    HStack() {
+                        Text(transactionVM.category).font(.system(size: 18))
+                    }.frame(minWidth: 0, maxWidth: UIScreen.screenWidth-50, alignment: .leading)
+                    HStack {
+                        Text(String(transactionVM.sum))
+                            .frame(minWidth:50, maxWidth: 100)
+                            .font(.system(size: 18))
+                            .frame(alignment: .trailing)
+                    }.frame(minWidth: 0, maxWidth: 170)
                 }.frame(width: UIScreen.screenWidth-50, height: 20)
                 VStack {
                     HStack(alignment: .top, spacing: 0) {
                         Image(systemName: "bag").font(.system(size: 13))
                         Text("  Готівка").foregroundColor(.gray)
-                    }.frame(minWidth: 80, maxWidth: UIScreen.screenWidth-110, alignment: .leading)
+                    }.frame(minWidth: 0, maxWidth: 370, alignment: .leading)
                     HStack(alignment: .center, spacing: 0) {
                         if transactionVM.commentary != "" {
                             Image(systemName: "text.bubble").font(.system(size:12))
-                            Text("  " + transactionVM.commentary).foregroundColor(.gray).multilineTextAlignment(.leading).lineLimit(1)
+                            Text("  " + transactionVM.commentary).foregroundColor(.gray).fixedSize(horizontal: false, vertical: true).lineLimit(1).frame(width: 250, alignment: .leading)
                         }
-                    }.frame(minWidth: 80, maxWidth: UIScreen.screenWidth-110, alignment: .leading)
-                }.position(x: 190, y: 22)
+                    }.frame(minWidth: 0, maxWidth: UIScreen.screenWidth, alignment: .leading)
+                }
             }.frame(width: UIScreen.screenWidth-50)
-        }.frame(height: 62)
+        }.frame(width: UIScreen.screenWidth, height: 62)
     }
 }
 
