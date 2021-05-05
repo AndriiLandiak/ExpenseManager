@@ -55,7 +55,7 @@ struct ContentView: View {
                     ForEach(self.transactionVM.transactions.indices, id: \.self) { idx in
                         Section(header: (Text(String(transactionVM.transactions[idx].correctDate)))) {
                             NavigationLink(
-                                destination: Edit(transactionVM: transactionVM, idx: idx)) {
+                                destination: Edit(transactionVM: transactionVM, idx: idx, addNewCategory: false)) {
                                 MenuCell(transactionVM: self.transactionVM.transactions[idx]).shadow(radius:10)
                                 }
                         }

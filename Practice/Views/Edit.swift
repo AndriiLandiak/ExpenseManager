@@ -8,23 +8,38 @@
 import SwiftUI
 
 struct Edit: View {
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     @ObservedObject var transactionVM = TransactionListViewModel()
-    var idx: Int = 0
     
+    private let expViewModel = AddExpensesViewModel()
+    private let incViewModel = AddIncomeViewModel()
+    
+    var idx: Int
+    var check: Int = 0
+    
+    @State private var selectedFrameworkIndex = 0 // pick category we want
+    
+    @State var checkExpense: Bool = true
+    @State var addNewCategory: Bool
     @State private var commentary: String = ""
     @State private var sum: String = ""
     @State private var date = Date()
     
     var body: some View {
         Form {
-            Text("Витрати | Прибуток | Борг")
-            HStack {
-                Image(systemName: "bag")
-                TextField("0", text: $sum).keyboardType(.numberPad).multilineTextAlignment(.trailing)
+            if transactionVM.transactions[idx].sum < 0 {
+                Text("Expense").frame(minWidth:0, maxWidth: .infinity)
+            }else {
+                Text("Income").frame(minWidth:0, maxWidth: .infinity)
             }
             HStack {
-                Text("Різні категорії")
+                Image(systemName: "bag")
+                if transactionVM.transactions[idx].sum < 0 {
+                    TextField(String(transactionVM.transactions[idx].sum), text: $sum).keyboardType(.numberPad).multilineTextAlignment(.trailing)
+                }else {
+                    TextField(String(transactionVM.transactions[idx].sum), text: $sum).keyboardType(.numberPad).multilineTextAlignment(.trailing)
+                }
             }
             HStack {
                 Image(systemName: "calendar")
@@ -32,28 +47,44 @@ struct Edit: View {
             }
             HStack {
                 Image(systemName: "text.bubble")
-                TextField("Коментар", text: $commentary)
+                TextField(String(transactionVM.transactions[idx].commentary), text: $commentary)
             }
-        }.toolbar {
+        }.onAppear() {
+            if transactionVM.transactions[idx].sum < 0 {
+                sum = String(-transactionVM.transactions[idx].sum)
+                checkExpense = true
+            }else {
+                sum = String(transactionVM.transactions[idx].sum)
+                checkExpense = false
+            }
+            commentary = transactionVM.transactions[idx].commentary
+            date = transactionVM.transactions[idx].date
+        }
+        .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     HStack {
                         Button(action: {
                             self.transactionVM.removeTransaction(at: idx)
-                            refreshData()
-                            
+                            presentationMode.wrappedValue.dismiss()
                         }) {
                             Image(systemName: "trash")
                         }
                         Button("Зберегти") {
-                            print("Good")
+                            if commentary != transactionVM.transactions[idx].commentary || Double(sum) != transactionVM.transactions[idx].sum ||
+                                date != transactionVM.transactions[idx].date {
+                                let transNew = TransactionViewModel(id: transactionVM.transactions[idx].id, sum: Double(sum) ?? 0, date: date, category: transactionVM.transactions[idx].category, commentary: commentary)
+                                if checkExpense {
+                                    expViewModel.updateTransaction(transaction: transNew)
+                                } else {
+                                    incViewModel.updateTransaction(transaction: transNew)
+                                }
+                                presentationMode.wrappedValue.dismiss()
+                                
                     }
                 }
             }
         }
     }
-
-    func refreshData() {
-        self.transactionVM.fetchAllTransaction()
     }
 }
 

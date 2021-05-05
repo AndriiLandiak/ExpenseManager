@@ -62,14 +62,13 @@ public class ManageData {
         }
     }
     
-    func updateTrasaction(id: UUID, sum: Double, date: Date, category: String, commentary:String) {
+    func updateTrasaction(id: UUID, sum: Double, date: Date, commentary:String) {
         let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
         fetchRequest.predicate = NSPredicate.init(format: "id=%@", id.uuidString)
         do {
             let trsfrs = try self.managedContext.fetch(fetchRequest).first
             trsfrs?.date = date
             trsfrs?.sum = sum
-            trsfrs?.category = category
             trsfrs?.commentary = commentary
             try self.managedContext.save()
         } catch {

@@ -13,4 +13,8 @@ class AddExpensesViewModel {
     func addTransaction(transaction: TransactionViewModel) {
         ManageData.shared.addTrasaction(id: transaction.id, sum: -transaction.sum, date: transaction.date, category: transaction.category, commentary: transaction.commentary)
     }
+    
+    func updateTransaction(transaction: TransactionViewModel) {
+        ManageData.shared.updateTrasaction(id: transaction.id, sum: -transaction.sum, date: transaction.date, commentary: transaction.commentary)
+    }
 }
