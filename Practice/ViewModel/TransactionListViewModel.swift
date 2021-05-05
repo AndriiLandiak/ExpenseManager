@@ -35,6 +35,35 @@ class TransactionListViewModel: ObservableObject {
         }
         return emptyDict
     }
+    
+    func takeByYear(_ year: Int) -> [String:Double] {
+        var emptyDict: [String: Double] = [:]
+        for el in transactions {
+            if el.sum < 0 && !emptyDict.keys.contains(el.category) && Int(el.yearString) == year {
+                emptyDict[el.category] = -el.sum
+            } else if el.sum < 0, let zalupa = emptyDict[el.category], Int(el.yearString) == year {
+                emptyDict[el.category] = zalupa + (-el.sum)
+            } else {
+                continue
+            }
+        }
+        return emptyDict
+    }
+    
+    func takeByYearAndMonth(_ year: Int,_ month: Int) -> [String:Double] {
+        let monthSymbols = Calendar.current.monthSymbols
+        var emptyDict: [String: Double] = [:]
+        for el in transactions {
+            if el.sum < 0 && !emptyDict.keys.contains(el.category) && Int(el.yearString) == year && el.onlyMonthString == monthSymbols[month] {
+                emptyDict[el.category] = -el.sum
+            } else if el.sum < 0, let zalupa = emptyDict[el.category], Int(el.yearString) == year, el.onlyMonthString == monthSymbols[month] {
+                emptyDict[el.category] = zalupa + (-el.sum)
+            } else {
+                continue
+            }
+        }
+        return emptyDict
+    }
 
     func fetchAllTransaction() {
         self.transactions = ManageData.shared.getAllTrasaction().map(TransactionViewModel.init)
@@ -45,3 +74,4 @@ class TransactionListViewModel: ObservableObject {
         ManageData.shared.removeTrasaction(id: bday.id)
     }
 }
+

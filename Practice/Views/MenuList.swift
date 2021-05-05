@@ -51,13 +51,6 @@ struct ContentView: View {
                             }
                         )
                 }
-//                Group {
-//                    ForEach(keys.indices) { index in
-//                        Section(header: Text(keys)) {
-//                            Text(values)
-//                        }
-//                    }
-//                }
                 Group {
                     ForEach(self.transactionVM.transactions.indices, id: \.self) { idx in
                         Section(header: (Text(String(transactionVM.transactions[idx].correctDate)))) {
@@ -95,12 +88,8 @@ extension View {
     }
 }
 
-struct HeaderList: View {
-    var body: some View {
-            Text("Hello, world!")
-                .padding()
-    }
-}
+
+
 
 struct MenuList: View {
     
@@ -115,7 +104,7 @@ struct MenuList: View {
                 ContentView()
                     .tabItem { Label("Transaction", systemImage: "arrow.left.arrow.right.circle")
                     }
-                DiagramView()
+                DiagramView(changeFilter: false, value: 2)
                     .tabItem { Label("Analytics", systemImage: "banknote") }
             }.colorMultiply(.white)
             .edgesIgnoringSafeArea(.top)

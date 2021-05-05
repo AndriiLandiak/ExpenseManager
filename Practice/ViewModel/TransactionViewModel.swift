@@ -48,6 +48,12 @@ class TransactionViewModel {
         return monthAndDayFormatter.string(from: date).lowercased()
     }
     
+    var onlyMonthString: String {
+        let s = (monthAndDayFormatter.string(from: date).lowercased())
+        let newS = s.components(separatedBy: CharacterSet.decimalDigits).joined(separator: "")
+        return newS.removeWhitespace().capitalizingFirstLetter()
+    }
+    
     var dayInWeekString: String {
         return dayWeekFormatter.string(from: date).lowercased()
     }
@@ -70,5 +76,22 @@ class TransactionViewModel {
         self.date = date
         self.category = category
         self.commentary = commentary
+    }
+}
+
+extension String {
+    func capitalizingFirstLetter() -> String {
+        return prefix(1).capitalized + dropFirst()
+    }
+    func replace(string:String, replacement:String) -> String {
+        return self.replacingOccurrences(of: string, with: replacement, options: NSString.CompareOptions.literal, range: nil)
+    }
+
+    func removeWhitespace() -> String {
+        return self.replace(string: " ", replacement: "")
+    }
+
+    mutating func capitalizeFirstLetter() {
+        self = self.capitalizingFirstLetter()
     }
 }

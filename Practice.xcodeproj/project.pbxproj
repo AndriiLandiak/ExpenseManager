@@ -34,6 +34,7 @@
 		666493C726401D6700552C46 /* AddCategoryPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666493C626401D6700552C46 /* AddCategoryPicker.swift */; };
 		666493C92640220A00552C46 /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666493C82640220A00552C46 /* AccountView.swift */; };
 		666493CC2640558D00552C46 /* DiagramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666493CB2640558D00552C46 /* DiagramView.swift */; };
+		66BAA744264178DF00CE8F9C /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66BAA743264178DF00CE8F9C /* FilterView.swift */; };
 		66E485EC2639582500C99854 /* AddIncomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E485EB2639582500C99854 /* AddIncomeViewModel.swift */; };
 /* End PBXBuildFile section */
 
@@ -67,6 +68,7 @@
 		666493C626401D6700552C46 /* AddCategoryPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCategoryPicker.swift; sourceTree = "<group>"; };
 		666493C82640220A00552C46 /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
 		666493CB2640558D00552C46 /* DiagramView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiagramView.swift; sourceTree = "<group>"; };
+		66BAA743264178DF00CE8F9C /* FilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterView.swift; sourceTree = "<group>"; };
 		66E485EB2639582500C99854 /* AddIncomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddIncomeViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -99,6 +101,7 @@
 				6628029D2633247D00B8BD59 /* Expenses.swift */,
 				662802A02633248B00B8BD59 /* Income.swift */,
 				662802A32633623100B8BD59 /* Edit.swift */,
+				66BAA743264178DF00CE8F9C /* FilterView.swift */,
 				666493CA2640551E00552C46 /* CategoryViews */,
 			);
 			path = Views;
@@ -111,9 +114,7 @@
 				6628028E2632F09500B8BD59 /* TransactionViewModel.swift */,
 				6600DEF726384C8A00B5E806 /* AddExpensesViewModel.swift */,
 				66E485EB2639582500C99854 /* AddIncomeViewModel.swift */,
-				666493B3263C3FBE00552C46 /* CategoryViewModel.swift */,
-				666493B5263C400000552C46 /* CategoryListViewModel.swift */,
-				666493B7263C40FD00552C46 /* AddUpdateCategory.swift */,
+				666493CD264068AC00552C46 /* CategoryViewModel */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -187,6 +188,16 @@
 				666493C626401D6700552C46 /* AddCategoryPicker.swift */,
 			);
 			path = CategoryViews;
+			sourceTree = "<group>";
+		};
+		666493CD264068AC00552C46 /* CategoryViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				666493B5263C400000552C46 /* CategoryListViewModel.swift */,
+				666493B3263C3FBE00552C46 /* CategoryViewModel.swift */,
+				666493B7263C40FD00552C46 /* AddUpdateCategory.swift */,
+			);
+			path = CategoryViewModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -263,6 +274,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				66BAA744264178DF00CE8F9C /* FilterView.swift in Sources */,
 				661122072630276D00C48FFE /* MenuCell.swift in Sources */,
 				662802A42633623100B8BD59 /* Edit.swift in Sources */,
 				666493BA263C429E00552C46 /* CategoryView.swift in Sources */,
@@ -356,7 +368,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -411,7 +423,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
