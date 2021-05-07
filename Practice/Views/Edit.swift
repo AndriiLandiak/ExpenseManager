@@ -18,10 +18,8 @@ struct Edit: View {
     var idx: Int
     var check: Int = 0
     
-    @State private var selectedFrameworkIndex = 0 // pick category we want
-    
-    @State var checkExpense: Bool = true
     @State var addNewCategory: Bool
+    @State var checkExpense: Bool = true
     @State private var commentary: String = ""
     @State private var sum: String = ""
     @State private var date = Date()
@@ -41,8 +39,9 @@ struct Edit: View {
                     TextField(String(transactionVM.transactions[idx].sum), text: $sum).keyboardType(.numberPad).multilineTextAlignment(.trailing)
                 }
             }
+            
             HStack {
-                Image(systemName: "calendar")
+                Image(systemName: "calendar") 
                 DatePicker("", selection: $date, displayedComponents: .date).position(x: -15, y: 17)
             }
             HStack {
@@ -86,5 +85,7 @@ struct Edit: View {
         }
     }
     }
+
 }
 
+//testing

@@ -10,6 +10,10 @@ import SwiftUI
 struct DiagramView: View {
     
     @ObservedObject var transactionVM = TransactionListViewModel()
+    
+    
+    var allM = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+    
     @State var changeFilter: Bool
     @State var value: Int
     
@@ -25,7 +29,13 @@ struct DiagramView: View {
         NavigationView {
             VStack {
                 HStack {
-                    Text("          Analytics").frame(maxWidth: .infinity)
+                    if value == 0 {
+                        Text("        " + String(allM[analForYMMonth]) + ", " + String(analForYMYear)).frame(maxWidth: .infinity)
+                    }else if value == 1 {
+                        Text("          " + String(analForYMYear)).frame(maxWidth: .infinity)
+                    } else {
+                        Text("          Full analytics").frame(maxWidth: .infinity)
+                    }
                     Button(action: {
                         changeFilter = true
                     }, label: {

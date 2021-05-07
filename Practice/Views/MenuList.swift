@@ -55,14 +55,14 @@ struct ContentView: View {
                     ForEach(self.transactionVM.transactions.indices, id: \.self) { idx in
                         Section(header: (Text(String(transactionVM.transactions[idx].correctDate)))) {
                             NavigationLink(
-                                destination: Edit(transactionVM: transactionVM, idx: idx, addNewCategory: false)) {
+                                destination: Edit(transactionVM: transactionVM, idx: idx,  addNewCategory: false)) {
                                 MenuCell(transactionVM: self.transactionVM.transactions[idx]).shadow(radius:10)
                                 }
                         }
                     }.onDelete(perform: delete(at:))
                 }
             }
-            .navigationBarTitle(Text("Main"), displayMode: .inline)
+            .navigationBarTitle(Text("Transactions"), displayMode: .inline)
             .onAppear {
                 refreshData()
             }
