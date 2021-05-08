@@ -41,6 +41,7 @@ public class ManageData {
         t.sum = sum
         t.category = category
         t.commentary = commentary
+//        t.userEmail = userEmail
         do {
             try self.managedContext.save()
         } catch {

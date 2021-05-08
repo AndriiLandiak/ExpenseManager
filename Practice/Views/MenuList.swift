@@ -97,17 +97,6 @@ struct MenuList: View {
         UITabBar.appearance().barTintColor = UIColor.white
     }
     var body: some View {
-            TabView {
-                AccountView(addNewCategory: false)
-                    .tabItem { Label("Account", systemImage: "house")
-                    }
-                ContentView()
-                    .tabItem { Label("Transaction", systemImage: "arrow.left.arrow.right.circle")
-                    }
-                DiagramView(changeFilter: false, value: 2)
-                    .tabItem { Label("Analytics", systemImage: "banknote") }
-            }.colorMultiply(.white)
-            .edgesIgnoringSafeArea(.top)
-            .accentColor(.black)
+        Home()
     }
 }
