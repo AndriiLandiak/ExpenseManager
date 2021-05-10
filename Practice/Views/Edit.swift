@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Firebase
 
 struct Edit: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
@@ -14,7 +15,7 @@ struct Edit: View {
     
     private let expViewModel = AddExpensesViewModel()
     private let incViewModel = AddIncomeViewModel()
-    
+    let user = Auth.auth().currentUser?.email ?? ""
     var idx: Int
     var check: Int = 0
     
@@ -68,10 +69,10 @@ struct Edit: View {
                         }) {
                             Image(systemName: "trash")
                         }
-                        Button("Зберегти") {
+                        Button("Save") {
                             if commentary != transactionVM.transactions[idx].commentary || Double(sum) != transactionVM.transactions[idx].sum ||
                                 date != transactionVM.transactions[idx].date {
-                                let transNew = TransactionViewModel(id: transactionVM.transactions[idx].id, sum: Double(sum) ?? 0, date: date, category: transactionVM.transactions[idx].category, commentary: commentary)
+                                let transNew = TransactionViewModel(id: transactionVM.transactions[idx].id, sum: Double(sum) ?? 0, date: date, category: transactionVM.transactions[idx].category, commentary: commentary, userEmail: user)
                                 if checkExpense {
                                     expViewModel.updateTransaction(transaction: transNew)
                                 } else {

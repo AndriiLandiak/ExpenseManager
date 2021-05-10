@@ -20,6 +20,8 @@ struct SignUp : View {
     @Binding var show : Bool
     @State var alert = false
     @State var error = ""
+
+    let category = AddUpdateCategory()
     
     var body: some View{
         
@@ -157,6 +159,8 @@ struct SignUp : View {
                                 self.alert.toggle()
                                 return
                             }
+                            
+                            category.addDefaultCategoryForUser(userEmail: self.email)
                             
                             print("success")
 

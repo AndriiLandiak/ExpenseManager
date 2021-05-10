@@ -12,7 +12,7 @@ import Firebase
 struct Home : View {
     
     @State var status = UserDefaults.standard.value(forKey: "status") as? Bool ?? false
-    
+
     var body: some View{
         VStack {
             if self.status {

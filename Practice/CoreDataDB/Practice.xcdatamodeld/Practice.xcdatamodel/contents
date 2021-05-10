@@ -5,6 +5,10 @@
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="userEmail" optional="YES" attributeType="String"/>
     </entity>
+    <entity name="PhotoEntity" representedClassName="PhotoEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="photo" optional="YES" attributeType="Binary"/>
+        <attribute name="userEmail" optional="YES" attributeType="String"/>
+    </entity>
     <entity name="Transaction" representedClassName="Transaction" syncable="YES" codeGenerationType="class">
         <attribute name="category" optional="YES" attributeType="String"/>
         <attribute name="commentary" optional="YES" attributeType="String"/>
@@ -16,5 +20,6 @@
     <elements>
         <element name="CatEntity" positionX="-27" positionY="54" width="128" height="74"/>
         <element name="Transaction" positionX="-27" positionY="18" width="128" height="119"/>
+        <element name="PhotoEntity" positionX="-27" positionY="63" width="128" height="59"/>
     </elements>
 </model>

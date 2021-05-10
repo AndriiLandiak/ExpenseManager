@@ -1,5 +1,5 @@
 //
-//  ManageData.swift
+//  Manage.swift
 //  Practice
 //
 //  Created by Andrew Landiak on 23.04.2021.
@@ -8,7 +8,6 @@
 import Foundation
 import UIKit
 import CoreData
-
 
 public class ManageData {
     
@@ -19,7 +18,7 @@ public class ManageData {
     private init(moc: NSManagedObjectContext) {
         self.managedContext = moc
     }
-    
+
     
     func getAllTrasaction() -> [Transaction] {
         var transfer = [Transaction]()
@@ -34,14 +33,25 @@ public class ManageData {
         return transfer
     }
     
-    func addTrasaction(id: UUID,  sum: Double, date: Date, category: String, commentary:String) {
+    func getAllUserTransaction(userEmail: String) -> [Transaction] {
+        let transfer = getAllTrasaction()
+        var correctTransfer = [Transaction]()
+        for el in transfer {
+            if el.userEmail == userEmail {
+                correctTransfer.append(el)
+            }
+        }
+        return correctTransfer
+    }
+    
+    func addTrasaction(id: UUID,  sum: Double, date: Date, category: String, commentary: String, userEmail: String) {
         let t = Transaction(context: self.managedContext)
         t.id = id
         t.date = date
         t.sum = sum
         t.category = category
         t.commentary = commentary
-//        t.userEmail = userEmail
+        t.userEmail = userEmail
         do {
             try self.managedContext.save()
         } catch {
@@ -88,10 +98,24 @@ public class ManageData {
         return category
     }
     
-    func addCategory(id: UUID, name: String) {
+    func getAllUserCategory(userEmail: String) -> [CatEntity] {
+        let category = getAllCategory()
+        var correctCategory = [CatEntity]()
+        for el in category {
+            if el.userEmail == userEmail {
+                correctCategory.append(el)
+            }
+        }
+
+        return correctCategory
+    }
+    
+    func addCategory(id: UUID, name: String, userEmail: String) {
         let t = CatEntity(context: self.managedContext)
         t.id = id
         t.name = name
+        t.userEmail = userEmail
+        print(t)
         do {
             try self.managedContext.save()
         } catch {
@@ -104,6 +128,9 @@ public class ManageData {
         fetchRequest.predicate = NSPredicate.init(format: "id=%@", id.uuidString)
         do {
             let bdays = try self.managedContext.fetch(fetchRequest)
+            for elemein in bdays {
+                print(elemein.id!)
+            }
             for bday in bdays {
                 self.managedContext.delete(bday)
             }

@@ -7,6 +7,7 @@
 
 import SwiftUI
 import UIKit
+import Firebase
 
 class AddNewOutcome: ObservableObject {
     @Published var commentary: String = ""
@@ -20,6 +21,7 @@ struct Income: View {
     @Binding var addNewPresented: Bool
     private let viewModel = AddIncomeViewModel()
     @ObservedObject var newData = AddNewOutcome()
+    let user = Auth.auth().currentUser?.email ?? ""
     
     var body: some View {
         Form {
@@ -29,15 +31,12 @@ struct Income: View {
                 TextField("0", text: $newData.sum).keyboardType(.numberPad).multilineTextAlignment(.trailing)
             }
             HStack {
-                Text("Різні категорії")
-            }
-            HStack {
                 Image(systemName: "calendar")
                 DatePicker("", selection: $newData.date, in: ...Date(), displayedComponents: .date).position(x: 70, y: 16).labelsHidden()
             }
             HStack {
                 Image(systemName: "text.bubble")
-                TextField("Коментар", text: $newData.commentary)
+                TextField("Commentary", text: $newData.commentary)
             }
             HStack (spacing: 30) {
                 Button(action: {self.addNew()}) {
@@ -49,7 +48,7 @@ struct Income: View {
         
         }
     func addNew() {
-        let transaction23 = TransactionViewModel(id: UUID(), sum: Double(newData.sum) ?? 0, date: newData.date, category: newData.category, commentary: newData.commentary)
+        let transaction23 = TransactionViewModel(id: UUID(), sum: Double(newData.sum) ?? 0, date: newData.date, category: newData.category, commentary: newData.commentary, userEmail: user)
         viewModel.addTransaction(transaction: transaction23)
         addNewPresented.toggle()
     }

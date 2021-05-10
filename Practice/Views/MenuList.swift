@@ -7,6 +7,7 @@
 
 
 import SwiftUI
+import Firebase
 
 struct ContentView: View {
     
@@ -15,6 +16,8 @@ struct ContentView: View {
     @State private var newCategory = false
     @State private var areYouGoingToIncomeView = false
     @State private var areYouGoingToOutcomeView = false
+    
+    let user = Auth.auth().currentUser?.email ?? ""
     
     var body: some View {
 //        let dictionary = transactionVM.groupBy()
@@ -70,7 +73,7 @@ struct ContentView: View {
     }
     
     func refreshData() {
-        self.transactionVM.fetchAllTransaction()
+        self.transactionVM.fetchAllTransaction(userEmail: user)
     }
     
     func delete(at offsets: IndexSet) {

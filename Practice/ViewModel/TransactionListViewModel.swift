@@ -9,10 +9,8 @@ import Foundation
 import SwiftUI
 import Combine
 
-
 class TransactionListViewModel: ObservableObject {
     @Published var transactions = [TransactionViewModel]()
-    
     
     func groupBy() -> Dictionary<DateComponents, [TransactionViewModel]> {
         let a = Dictionary(grouping: transactions) { (trans) -> DateComponents in
@@ -65,8 +63,8 @@ class TransactionListViewModel: ObservableObject {
         return emptyDict
     }
 
-    func fetchAllTransaction() {
-        self.transactions = ManageData.shared.getAllTrasaction().map(TransactionViewModel.init)
+    func fetchAllTransaction(userEmail: String) {
+        self.transactions = ManageData.shared.getAllUserTransaction(userEmail: userEmail).map(TransactionViewModel.init)
     }
     
     func removeTransaction(at index: Int) {

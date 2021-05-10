@@ -12,13 +12,14 @@ import Combine
 class CategoryListViewModel: ObservableObject {
     @Published var categories = [CategoryViewModel]()
 
-    func fetchAllCategory() {
-        self.categories = ManageData.shared.getAllCategory().map(CategoryViewModel.init)
+    func fetchAllCategory(userEmail: String) {
+        self.categories = ManageData.shared.getAllUserCategory(userEmail: userEmail).map(CategoryViewModel.init)
     }
     
     func removeCategory(at index: Int) {
         let bday = categories[index]
         ManageData.shared.removeCategory(id: bday.id)
     }
+    
 }
 

@@ -7,6 +7,7 @@
 
 import SwiftUI
 import UIKit
+import Firebase
 
 class AddNewIncome: ObservableObject {
     @Published var commentary: String = ""
@@ -21,15 +22,15 @@ struct Expenses: View {
     
     private let viewModel = AddExpensesViewModel()
     @ObservedObject var newData = AddNewIncome()
-    
+    let user = Auth.auth().currentUser?.email ?? ""
     @ObservedObject var categoryVM = CategoryListViewModel()
     var check: Int = 0
-    @State private var selectedFrameworkIndex = 0 // pick category we want
+    @State private var selectedFrameworkIndex = -1 // pick category we want
 
     
     var body: some View {
         Form {
-            Text("Витрати | Прибуток | Борг")
+            Text("Expenses").frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .center)
             HStack {
                 Image(systemName: "bag")
                 TextField("0", text: $newData.sum).keyboardType(.numberPad).multilineTextAlignment(.trailing)
@@ -81,8 +82,13 @@ struct Expenses: View {
         })
     }
     func addNew() {
-        let transaction23 = TransactionViewModel(id: UUID(), sum: Double(newData.sum) ?? 0, date: newData.date, category: categoryVM.categories[selectedFrameworkIndex].name, commentary: newData.commentary)
-        viewModel.addTransaction(transaction: transaction23)
+        if categoryVM.categories.count > 0 && selectedFrameworkIndex >= 0 {
+            let transaction23 = TransactionViewModel(id: UUID(), sum: Double(newData.sum) ?? 0, date: newData.date, category: categoryVM.categories[selectedFrameworkIndex].name, commentary: newData.commentary, userEmail: user)
+            viewModel.addTransaction(transaction: transaction23)
+        }else {
+            let transaction23 = TransactionViewModel(id: UUID(), sum: Double(newData.sum) ?? 0, date: newData.date, category: "No category", commentary: newData.commentary, userEmail: user)
+            viewModel.addTransaction(transaction: transaction23)
+        }
         addNewPresented.toggle()
     }
     private func endEditing() {
@@ -95,7 +101,7 @@ struct Expenses: View {
         refreshCategory()
     }
     func refreshCategory() {
-        self.categoryVM.fetchAllCategory()
+        self.categoryVM.fetchAllCategory(userEmail: user)
     }
 }
 

@@ -30,8 +30,8 @@ struct MenuCell: View {
                 }.frame(width: UIScreen.screenWidth-50, height: 20)
                 VStack {
                     HStack(alignment: .top, spacing: 0) {
-                        Image(systemName: "bag").font(.system(size: 13))
-                        Text("  Готівка").foregroundColor(.gray)
+                        Image(systemName: "bag").font(.system(size: 13)).padding(.top, 5)
+                        Text("  Cash").foregroundColor(.gray).padding(.top, 2)
                     }.frame(minWidth: 0, maxWidth: 370, alignment: .leading)
                     HStack(alignment: .center, spacing: 0) {
                         if transactionVM.commentary != "" {

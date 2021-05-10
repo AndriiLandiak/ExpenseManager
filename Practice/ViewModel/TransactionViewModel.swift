@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 import Combine
-
+import Firebase
 
 class TransactionViewModel {
     var id: UUID
@@ -16,6 +16,11 @@ class TransactionViewModel {
     var date: Date
     var category: String
     var commentary: String
+    var userEmail: String
+    
+    var returnAll: String {
+        return category + " " + commentary + " " +  userEmail
+    }
     
     var monthAndDayFormatter: DateFormatter = {
         let f = DateFormatter()
@@ -60,6 +65,8 @@ class TransactionViewModel {
     var yearString: String {
         return yearFormatter.string(from: date)
     }
+    
+
 
     
     init(transaction: Transaction) {
@@ -68,14 +75,16 @@ class TransactionViewModel {
         self.date = transaction.date ?? Date()
         self.category = transaction.category ?? ""
         self.commentary = transaction.commentary ?? ""
+        self.userEmail = transaction.userEmail ?? ""
     }
     
-    init(id: UUID, sum: Double, date: Date, category: String, commentary: String) {
+    init(id: UUID, sum: Double, date: Date, category: String, commentary: String, userEmail: String) {
         self.id = id
         self.sum = sum
         self.date = date
         self.category = category
         self.commentary = commentary
+        self.userEmail = userEmail
     }
 }
 

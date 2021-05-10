@@ -6,14 +6,14 @@
 //
 
 import SwiftUI
-
+import Firebase
 struct CategoryView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     var idx: Int = 0
     @ObservedObject var categoryVM = CategoryListViewModel()
     private let viewModel = AddUpdateCategory()
-    
+    private let user = Auth.auth().currentUser?.email ?? ""
     @State var isPlaying : Bool = false //for image pencil
     @State var addNewCat : Bool = false
     
@@ -58,6 +58,6 @@ struct CategoryView: View {
         refreshCategory()
     }
     func refreshCategory() {
-        self.categoryVM.fetchAllCategory()
+        self.categoryVM.fetchAllCategory(userEmail: user)
     }
 }

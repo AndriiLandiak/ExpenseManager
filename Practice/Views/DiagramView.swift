@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Firebase
 
 struct DiagramView: View {
     
@@ -24,6 +25,7 @@ struct DiagramView: View {
     @State var analForYMYear: Int = 2021 // filter on year-month
     @State var analForYMMonth: Int = 4 // filter on year-month
 
+    let user = Auth.auth().currentUser?.email ?? ""
     
     var body: some View {
         NavigationView {
@@ -97,7 +99,7 @@ struct DiagramView: View {
     }
     
     func refreshData() {
-        self.transactionVM.fetchAllTransaction()
+        self.transactionVM.fetchAllTransaction(userEmail: user)
     }
     func delete(at offsets: IndexSet) {
         for index in offsets {

@@ -11,7 +11,7 @@ import SwiftUI
 class AddExpensesViewModel {
     
     func addTransaction(transaction: TransactionViewModel) {
-        ManageData.shared.addTrasaction(id: transaction.id, sum: -transaction.sum, date: transaction.date, category: transaction.category, commentary: transaction.commentary)
+        ManageData.shared.addTrasaction(id: transaction.id, sum: -transaction.sum, date: transaction.date, category: transaction.category, commentary: transaction.commentary, userEmail: transaction.userEmail)
     }
     
     func updateTransaction(transaction: TransactionViewModel) {

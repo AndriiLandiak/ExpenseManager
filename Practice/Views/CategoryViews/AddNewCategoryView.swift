@@ -6,11 +6,12 @@
 //
 
 import SwiftUI
-
+import Firebase
 struct AddNewCategoryView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @State var detName: String = ""
     private let viewModel = AddUpdateCategory()
+    let user = Auth.auth().currentUser?.email ?? ""
     
     var body: some View {
         Form {
@@ -22,7 +23,7 @@ struct AddNewCategoryView: View {
         .toolbar {
             Button(action: {
                 if detName != ""  {
-                    let categoryNew = CategoryViewModel(id: UUID(), name: detName)
+                    let categoryNew = CategoryViewModel(id: UUID(), name: detName, userEmail: user)
                     viewModel.addCategory(category: categoryNew)
                     presentationMode.wrappedValue.dismiss()
                 } else {
