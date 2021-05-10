@@ -1,5 +1,5 @@
 //
-//  AccountView.swift
+//  AccView.swift
 //  Practice
 //
 //  Created by Andrew Landiak on 03.05.2021.
@@ -11,16 +11,20 @@ import Firebase
 
 struct AccountView: View {
     
+//    @Environment(\.managedObjectContext) var viewContext
+//
+//    @FetchRequest(entity: PhotoEntity.entity(), sortDescriptors: [], animation: Animation.easeInOut)
+//
+//    var images: FetchedResults<PhotoEntity>
     @State var showActionSheet: Bool = false
     @State var showImagePicker: Bool = false
     @State var selectedImage: Image? = Image("")
+//    @State private var data: Data?
     @State var sourceType: UIImagePickerController.SourceType = .photoLibrary
     @State var addNewCategory: Bool
     
-    
     var body: some View {
         VStack {
-            
             Button {
                 self.showActionSheet = true
             } label: {
@@ -41,9 +45,19 @@ struct AccountView: View {
                     .cancel()
                 ])
             }.accentColor(Color("AuthorizationColor"))
-            
-            
-
+//            .onDisappear() {
+//                    let newImage = PhotoEntity(context: viewContext)
+//                    newImage.photo = data
+//                    newImage.userEmail = Auth.auth().currentUser?.email
+//
+//                    do {
+//                        try viewContext.save()
+//                        print("Image Saved!")
+//                    } catch {
+//                        print(error.localizedDescription)
+//                    }
+//            }
+            Text(Auth.auth().currentUser?.email ?? "")
             Button(action: {
                 self.addNewCategory = true
             }) {
@@ -79,6 +93,11 @@ struct AccountView: View {
             ImagePicker(image: self.$selectedImage)
         })
     }
+//    func loadImage() {
+//        guard let data = data else { return }
+//
+//        selectedImage = Image(uiImage: UIImage(data: data) ?? UIImage(systemName: "person.circle.fill")!)
+//    }
 }
 
 struct ImagePicker: UIViewControllerRepresentable {
