@@ -162,7 +162,7 @@ struct Login : View {
         }
     }
     
-    func reset(){
+    func reset() {
 
         if self.email != ""{
 

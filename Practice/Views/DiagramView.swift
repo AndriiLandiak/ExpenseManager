@@ -12,7 +12,6 @@ struct DiagramView: View {
     
     @ObservedObject var transactionVM = TransactionListViewModel()
     
-    
     var allM = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
     
     @State var changeFilter: Bool
@@ -34,7 +33,7 @@ struct DiagramView: View {
                     if value == 0 {
                         Text("        " + String(allM[analForYMMonth]) + ", " + String(analForYMYear)).frame(maxWidth: .infinity)
                     }else if value == 1 {
-                        Text("          " + String(analForYMYear)).frame(maxWidth: .infinity)
+                        Text("          " + String(analForYear)).frame(maxWidth: .infinity)
                     } else {
                         Text("          Full analytics").frame(maxWidth: .infinity)
                     }

@@ -16,17 +16,14 @@ class AddNewIncome: ObservableObject {
 }
 
 struct Expenses: View {
-    
+    @ObservedObject var newData = AddNewIncome()
+    @ObservedObject var categoryVM = CategoryListViewModel()
+    private let viewModel = AddExpensesViewModel()
+    private let user = Auth.auth().currentUser?.email ?? ""
     @Binding var addNewPresented: Bool
     @State var addNewCategory: Bool
-    
-    private let viewModel = AddExpensesViewModel()
-    @ObservedObject var newData = AddNewIncome()
-    let user = Auth.auth().currentUser?.email ?? ""
-    @ObservedObject var categoryVM = CategoryListViewModel()
-    var check: Int = 0
     @State private var selectedFrameworkIndex = -1 // pick category we want
-
+    var check: Int = 0
     
     var body: some View {
         Form {
