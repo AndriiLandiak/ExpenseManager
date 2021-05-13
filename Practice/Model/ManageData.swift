@@ -25,11 +25,8 @@ public class ManageData {
         let bdRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
         let sdSortDate = NSSortDescriptor.init(key: "date", ascending: false)
         bdRequest.sortDescriptors = [sdSortDate]
-        do {
-            transfer = try self.managedContext.fetch(bdRequest)
-        } catch {
-            print(error)
-        }
+        do { transfer = try self.managedContext.fetch(bdRequest)}
+        catch {print(error)}
         return transfer
     }
     

@@ -10,7 +10,13 @@ import SwiftUI
 import Combine
 import Firebase
 
-class TransactionViewModel {
+struct Day: Identifiable {
+    var id = UUID()
+    var dateString: String
+    var tr: [TransactionViewModel]
+}
+
+class TransactionViewModel: Identifiable {
     var id: UUID
     var sum: Double
     var date: Date
@@ -45,8 +51,8 @@ class TransactionViewModel {
     
     var correctDate: String {
         let year = Calendar.current.component(.year, from: Date())
-        if year == Int(yearString) { return monthString + ", " + dayInWeekString }
-        else { return monthString + " " + yearString + ", " + dayInWeekString}
+        if year == Int(yearString) { return monthString + ", " + dayInWeekString}
+        else { return monthString + " " + yearString + ", " + dayInWeekString }
     }
     
     var monthString: String {
@@ -54,19 +60,17 @@ class TransactionViewModel {
     }
     
     var onlyMonthString: String {
-        let s = (monthAndDayFormatter.string(from: date).lowercased())
+        let s = monthAndDayFormatter.string(from: date)
         let newS = s.components(separatedBy: CharacterSet.decimalDigits).joined(separator: "")
         return newS.removeWhitespace().capitalizingFirstLetter()
     }
     
     var dayInWeekString: String {
-        return dayWeekFormatter.string(from: date).lowercased()
+        return dayWeekFormatter.string(from: date)
     }
     var yearString: String {
         return yearFormatter.string(from: date)
     }
-    
-
 
     
     init(transaction: Transaction) {

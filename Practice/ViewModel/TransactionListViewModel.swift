@@ -9,16 +9,25 @@ import Foundation
 import SwiftUI
 import Combine
 
+
 class TransactionListViewModel: ObservableObject {
     @Published var transactions = [TransactionViewModel]()
     
-    func groupBy() -> Dictionary<DateComponents, [TransactionViewModel]> {
-        let a = Dictionary(grouping: transactions) { (trans) -> DateComponents in
-            let date2 = Calendar.current.dateComponents([.year, .day, .month], from: (trans.date))
-            return date2
+    func groupBy() -> [Day] {
+        var date = [Day]()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .medium
+        dateFormatter.timeStyle = .none
+        
+        let grouped = Dictionary(grouping: transactions)  { (occurrence: TransactionViewModel) -> String in
+            dateFormatter.string(from: occurrence.date)
         }
-        return a
+        date = grouped.map { day -> Day in
+            Day(id: day.value[0].id, dateString: day.value[0].correctDate, tr: day.value)
+        }
+        return date
     }
+
     
     func takeDictionary() -> [String:Double] {
         var emptyDict: [String: Double] = [:]
@@ -61,6 +70,19 @@ class TransactionListViewModel: ObservableObject {
             }
         }
         return emptyDict
+    }
+    
+    func checkViewModel(trans: TransactionViewModel) -> Int {
+        var s = 0
+        for el in transactions {
+            if el.id != trans.id {
+                s += 1
+                continue
+            } else {
+                return s
+            }
+        }
+        return s
     }
 
     func fetchAllTransaction(userEmail: String) {

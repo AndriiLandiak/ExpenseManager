@@ -19,10 +19,16 @@ struct ContentView: View {
     
     let user = Auth.auth().currentUser?.email ?? ""
     
+    var daySections: [Day] {
+        get {
+            return transactionVM.groupBy()
+        }
+    }
+    
+    var idx = 0
+    
     var body: some View {
-//        let dictionary = transactionVM.groupBy()
-//        let keys = dictionary.map {$0.key}
-//        let values = dictionary.map {$0.value}
+        Print("daySection", daySections)
         NavigationView {
             List {
                 Group {
@@ -54,15 +60,21 @@ struct ContentView: View {
                             }
                         )
                 }
+                
                 Group {
-                    ForEach(self.transactionVM.transactions.indices, id: \.self) { idx in
-                        Section(header: (Text(String(transactionVM.transactions[idx].correctDate)))) {
-                            NavigationLink(
-                                destination: Edit(transactionVM: transactionVM, idx: idx,  addNewCategory: false)) {
-                                MenuCell(transactionVM: self.transactionVM.transactions[idx]).shadow(radius:10)
-                                }
+                    ForEach(daySections) { section in
+                        Section(header:CustomHeader(name: section.dateString)
+                        ) {
+                            ForEach(section.tr) { trans in
+                                NavigationLink(
+                                    destination: Edit(transactionVM: transactionVM, idx: transactionVM.checkViewModel(trans: trans),  addNewCategory: false)) {
+                                    MenuCell(transactionVM: trans).shadow(radius:10)
+                                    }
+                            }
                         }
-                    }.onDelete(perform: delete(at:))
+                        .textCase(nil)
+                    }
+//                    .onDelete(perform: delete(at:))
                 }
             }
             .navigationBarTitle(Text("Transactions"), displayMode: .inline)
@@ -76,12 +88,12 @@ struct ContentView: View {
         self.transactionVM.fetchAllTransaction(userEmail: user)
     }
     
-    func delete(at offsets: IndexSet) {
-        for index in offsets {
-            self.transactionVM.removeTransaction(at: index)
-        }
-        refreshData()
-    }
+//    func delete(at offsets: IndexSet) {
+//        for index in offsets {
+//            self.transactionVM.removeTransaction(at: index)
+//        }
+//        refreshData()
+//    }
 }
 
 extension View {
@@ -92,8 +104,6 @@ extension View {
 }
 
 
-
-
 struct MenuList: View {
     
     init() {
@@ -101,5 +111,18 @@ struct MenuList: View {
     }
     var body: some View {
         Home()
+    }
+}
+
+struct CustomHeader: View {
+    let name: String
+
+    var body: some View {
+        Text(name)
+        .padding(.leading, 10)
+        .frame(width: UIScreen.screenWidth, height: 28, alignment: .leading)
+        .background(Color("Abitcolor"))
+        .foregroundColor(Color.black)
+        .border(Color.black, width: 1)
     }
 }
