@@ -119,10 +119,10 @@ struct CustomHeader: View {
 
     var body: some View {
         Text(name)
-        .padding(.leading, 10)
+        .padding(.leading, 15)
         .frame(width: UIScreen.screenWidth, height: 28, alignment: .leading)
-        .background(Color("Abitcolor"))
-        .foregroundColor(Color.black)
+        .background(Color("AuthorizationColor"))
+        .foregroundColor(Color.white)
         .border(Color.black, width: 1)
     }
 }
