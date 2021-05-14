@@ -2,7 +2,7 @@
 //  Manage.swift
 //  Practice
 //
-//  Created by Andrew Landiak on 23.04.2021.
+//  Created by Andrew Landiak on 14.05.2021.
 //
 
 import Foundation
@@ -18,7 +18,6 @@ public class ManageData {
     private init(moc: NSManagedObjectContext) {
         self.managedContext = moc
     }
-
     
     func getAllTrasaction() -> [Transaction] {
         var transfer = [Transaction]()

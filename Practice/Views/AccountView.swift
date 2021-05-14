@@ -11,31 +11,31 @@ import Firebase
 
 struct AccountView: View {
     
-//    @Environment(\.managedObjectContext) var viewContext
-//
-//    @FetchRequest(entity: PhotoEntity.entity(), sortDescriptors: [], animation: Animation.easeInOut)
-//
-//    var images: FetchedResults<PhotoEntity>
+    @ObservedObject var balanceVM = TransactionListViewModel()
+
     @State var showActionSheet: Bool = false
     @State var showImagePicker: Bool = false
     @State var selectedImage: Image? = Image("")
-//    @State private var data: Data?
     @State var sourceType: UIImagePickerController.SourceType = .photoLibrary
     @State var addNewCategory: Bool
     
+    private let user = Auth.auth().currentUser?.email ?? ""
+    
     var body: some View {
         VStack {
+            AccountManagerHeader()
+            AccountHeader(balance: balanceVM.getBalance())
             Button {
                 self.showActionSheet = true
             } label: {
                 if selectedImage != Image("") {
-                    self.selectedImage?.resizable().clipShape(Circle()).frame(width: 100, height: 100).overlay(Circle().stroke(Color.black, lineWidth: 5))
+                    self.selectedImage?.resizable().clipShape(Circle()).frame(width: 150, height: 150).overlay(Circle().stroke(Color("AuthorizationColor"), lineWidth: 5))
                 }else {
-                    Image(systemName: "person.crop.circle").resizable().frame(width: 100, height: 100).clipShape(Circle()).overlay(Circle().stroke(Color.clear, lineWidth: 0))
+                    Image(systemName: "person.crop.circle").resizable().frame(width: 150, height: 150).clipShape(Circle()).overlay(Circle().stroke(Color.clear, lineWidth: 0))
                 }
             }
-            .frame(width:100, height: 100)
-            .padding(.top, 30)
+            .frame(width:150, height: 150)
+            .padding(.top, 20)
             .actionSheet(isPresented: $showActionSheet) {
                 ActionSheet(title: Text("Add photo"), buttons: [
                                 .default(Text("Choose from library"), action: {
@@ -45,106 +45,94 @@ struct AccountView: View {
                     .cancel()
                 ])
             }.accentColor(Color("AuthorizationColor"))
-//            .onDisappear() {
-//                    let newImage = PhotoEntity(context: viewContext)
-//                    newImage.photo = data
-//                    newImage.userEmail = Auth.auth().currentUser?.email
-//
-//                    do {
-//                        try viewContext.save()
-//                        print("Image Saved!")
-//                    } catch {
-//                        print(error.localizedDescription)
-//                    }
-//            }
+
             Text(Auth.auth().currentUser?.email ?? "")
-            Button(action: {
-                self.addNewCategory = true
-            }) {
-                Text("Categories")
-                    .foregroundColor(.white)
-                    .padding(.vertical)
-                    .frame(width: UIScreen.main.bounds.width - 50)
-            }
-            .sheet(isPresented: $addNewCategory) {
-                CategoryView()
-            }
-            .background(Color("LoginColor"))
-            .cornerRadius(10)
-            .padding(.top, 25)
-            
-            Button(action: {
+                .font(.system(size: 20))
+                .padding(.top, 10)
+            Spacer()
+            VStack {
+                Button(action: {
+                    self.addNewCategory = true
+                }) {
+                    Text("Categories")
+                        .foregroundColor(.white)
+                        .padding(.vertical)
+                        .frame(width: UIScreen.main.bounds.width - 50)
+                }
+                .sheet(isPresented: $addNewCategory) {
+                    CategoryView()
+                }
+                .background(Color("AuthorizationColor"))
+                .cornerRadius(10)
+                .padding(.top, 25)
                 
-                try! Auth.auth().signOut()
-                UserDefaults.standard.set(false, forKey: "status")
-                NotificationCenter.default.post(name: NSNotification.Name("status"), object: nil)
-                
-            }) {
-                
-                Text("Log out")
-                    .foregroundColor(.white)
-                    .padding(.vertical)
-                    .frame(width: UIScreen.main.bounds.width - 50)
-            }
-            .background(Color("LoginColor"))
-            .cornerRadius(10)
-            .padding(.top, 25)
-        }.sheet(isPresented: $showImagePicker, content: {
+                Button(action: {
+                    
+                    try! Auth.auth().signOut()
+                    UserDefaults.standard.set(false, forKey: "status")
+                    NotificationCenter.default.post(name: NSNotification.Name("status"), object: nil)
+                    
+                }) {
+                    
+                    Text("Log out")
+                        .foregroundColor(.white)
+                        .padding(.vertical)
+                        .frame(width: UIScreen.main.bounds.width - 50)
+                }
+                .background(Color("AuthorizationColor"))
+                .cornerRadius(10)
+                .padding(.top, 35)
+            }.padding(.bottom, 40)
+        }
+        .onAppear() {
+            refreshData()
+        }
+        .sheet(isPresented: $showImagePicker, content: {
             ImagePicker(image: self.$selectedImage)
         })
     }
-//    func loadImage() {
-//        guard let data = data else { return }
-//
-//        selectedImage = Image(uiImage: UIImage(data: data) ?? UIImage(systemName: "person.circle.fill")!)
-//    }
+    func refreshData() {
+        self.balanceVM.fetchAllTransaction(userEmail: user)
+    }
 }
 
-struct ImagePicker: UIViewControllerRepresentable {
- 
-    @Environment(\.presentationMode)
-    var presentationMode
- 
-    @Binding var image: Image?
- 
-    class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
- 
-        @Binding var presentationMode: PresentationMode
-        @Binding var image: Image?
- 
-        init(presentationMode: Binding<PresentationMode>, image: Binding<Image?>) {
-            _presentationMode = presentationMode
-            _image = image
-        }
- 
-        func imagePickerController(_ picker: UIImagePickerController,
-                                   didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-            let uiImage = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
-            image = Image(uiImage: uiImage)
-            presentationMode.dismiss()
- 
-        }
- 
-        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-            presentationMode.dismiss()
-        }
- 
+struct AccountManagerHeader: View {
+
+    var body: some View {
+        VStack {
+            Text("Account manager")
+                .frame(minWidth: 0, maxWidth: .infinity)
+                .font(.system(size: 25))
+        }.frame(width: UIScreen.screenWidth, height: 80)
+        .padding(.top, 0)
     }
- 
-    func makeCoordinator() -> Coordinator {
-        return Coordinator(presentationMode: presentationMode, image: $image)
+}
+
+struct AccountHeader: View {
+    let balance: Double
+    
+    var body: some View {
+        ZStack {
+            HStack {
+                Text("Balance:")
+                    .multilineTextAlignment(.center)
+                    .frame(minWidth: 0, maxWidth: .infinity)
+                    .font(.system(size: 25))
+                    .foregroundColor(Color("AuthorizationColor"))
+                Text(String(balance) + " $ ")
+                    .multilineTextAlignment(.trailing)
+                    .frame(minWidth: 0, maxWidth: .infinity)
+                    .font(.system(size: 25))
+                    .foregroundColor(Color("AuthorizationColor"))
+            }
+            .frame(width: UIScreen.screenWidth-20, height: 80, alignment: .trailing)
+            .overlay(
+                RoundedRectangle(cornerRadius: 10)                    .stroke(Color("AuthorizationColor"),lineWidth: 2)
+            )
+            .background(Color.white)
+        }.frame(width: UIScreen.screenWidth, height: 150)
+        .padding(.top, 0)
     }
- 
-    func makeUIViewController(context: UIViewControllerRepresentableContext<ImagePicker>) -> UIImagePickerController {
-        let picker = UIImagePickerController()
-        picker.delegate = context.coordinator
-        return picker
-    }
- 
-    func updateUIViewController(_ uiViewController: UIImagePickerController,
-                                context: UIViewControllerRepresentableContext<ImagePicker>) {
- 
-    }
- 
+
 }
 

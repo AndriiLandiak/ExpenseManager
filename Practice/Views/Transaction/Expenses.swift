@@ -16,6 +16,7 @@ class AddNewIncome: ObservableObject {
 }
 
 struct Expenses: View {
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @ObservedObject var newData = AddNewIncome()
     @ObservedObject var categoryVM = CategoryListViewModel()
     private let viewModel = AddExpensesViewModel()
@@ -23,47 +24,58 @@ struct Expenses: View {
     @Binding var addNewPresented: Bool
     @State var addNewCategory: Bool
     @State private var selectedFrameworkIndex = -1 // pick category we want
-    var check: Int = 0
     
     var body: some View {
-        Form {
-            Text("Expenses").frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .center)
-            HStack {
-                Image(systemName: "bag")
-                TextField("0", text: $newData.sum).keyboardType(.numberPad).multilineTextAlignment(.trailing)
-            }
-            VStack {
-                Picker("Category: ", selection: $selectedFrameworkIndex) {
-                    ForEach(categoryVM.categories.indices, id: \.self) { idx in
-                        if idx == categoryVM.categories.indices.last {
-                            CategoryCell(transactionVM: categoryVM.categories[idx])
-                                .navigationBarTitle("Select")
-                                .navigationBarItems(trailing: button())
-                        } else {
-                            CategoryCell(transactionVM: categoryVM.categories[idx])
+        NavigationView {
+            Form {
+                Text("Expenses").frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .center)
+                HStack {
+                    Image(systemName: "bag")
+                    TextField("0", text: $newData.sum).keyboardType(.numberPad).multilineTextAlignment(.trailing)
+                }
+                VStack {
+                    Picker("Category: ", selection: $selectedFrameworkIndex) {
+                        ForEach(categoryVM.categories.indices, id: \.self) { idx in
+                            if idx == categoryVM.categories.indices.last {
+                                Text(categoryVM.categories[idx].name)
+                                    .navigationBarTitle("Select category", displayMode: .inline)
+                                    .navigationBarItems(trailing: button())
+                            } else {
+                                Text(categoryVM.categories[idx].name)
+                            }
                         }
                     }
-                }.labelsHidden()
-                .background(Color.white)
-            }.background(Color.white)
-            HStack {
-                Image(systemName: "calendar")
-                DatePicker("", selection: $newData.date, in: ...Date(), displayedComponents: .date).position(x: 70, y: 16).labelsHidden()
+                    .background(Color.white)
+                }.background(Color.white)
+                HStack {
+                    Image(systemName: "calendar")
+                    DatePicker("", selection: $newData.date, in: ...Date(), displayedComponents: .date).position(x: 70, y: 16).labelsHidden()
+                }
+                HStack {
+                    Image(systemName: "text.bubble")
+                    TextField("Commentary", text: $newData.commentary)
+                }
+                HStack (spacing: 30) {
+                    Button(action: {presentationMode.wrappedValue.dismiss()}) {
+                        Text("Cancel")
+                        .bold()
+                    }.padding()
+                }
+                HStack (spacing: 30) {
+                    Button(action: {self.addNew()}) {
+                        Text("Save")
+                        .bold()
+                    }.padding()
+                }
             }
-            HStack {
-                Image(systemName: "text.bubble")
-                TextField("Коментар", text: $newData.commentary)
+            .onAppear() {
+                refreshCategory()
             }
-            HStack (spacing: 30) {
-                Button(action: {self.addNew()}) {
-                    Text("Save")
-                    .bold()
-                }.padding()
-            }
-        }
-        .onAppear() {
-            refreshCategory()
-            }
+        }.navigationBarHidden(true)
+        .navigationBarTitle("")
+        .navigationTitle("")
+        .navigationBarBackButtonHidden(true)
+        
     }
     func button() -> some View {
         HStack(alignment: .center, content: {
@@ -88,9 +100,6 @@ struct Expenses: View {
         }
         addNewPresented.toggle()
     }
-    private func endEditing() {
-        UIApplication.shared.endEditing()
-    }
     func delete(at offsets: IndexSet) {
         for index in offsets {
             self.categoryVM.removeCategory(at: index)
@@ -99,11 +108,5 @@ struct Expenses: View {
     }
     func refreshCategory() {
         self.categoryVM.fetchAllCategory(userEmail: user)
-    }
-}
-
-extension UIApplication {
-    func endEditing() {
-        sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }

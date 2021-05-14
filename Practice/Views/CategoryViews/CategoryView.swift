@@ -25,7 +25,7 @@ struct CategoryView: View {
                 ForEach(self.categoryVM.categories.indices, id: \.self) { idx in
                            NavigationLink(
                             destination: CategoryDetail(transactionVM: categoryVM.categories[idx], categoryName:  categoryVM.categories[idx].name)) {
-                            CategoryCell(transactionVM: categoryVM.categories[idx])
+                            Text(categoryVM.categories[idx].name)
                            }
                     }.onDelete(perform:delete(at:))
             }.onAppear() {

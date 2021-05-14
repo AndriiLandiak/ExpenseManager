@@ -8,6 +8,7 @@
 
 import SwiftUI
 import Firebase
+import LocalAuthentication
 
 struct ContentView: View {
     
@@ -28,7 +29,6 @@ struct ContentView: View {
     var idx = 0
     
     var body: some View {
-        Print("daySection", daySections)
         NavigationView {
             List {
                 Group {
@@ -104,16 +104,6 @@ extension View {
 }
 
 
-struct MenuList: View {
-    
-    init() {
-        UITabBar.appearance().barTintColor = UIColor.white
-    }
-    var body: some View {
-        Home()
-    }
-}
-
 struct CustomHeader: View {
     let name: String
 
@@ -126,3 +116,17 @@ struct CustomHeader: View {
         .border(Color.black, width: 1)
     }
 }
+
+
+
+
+struct MenuList: View {
+    
+    init() {
+        UITabBar.appearance().barTintColor = UIColor.white
+    }
+    var body: some View {
+        Home()
+    }
+}
+

@@ -27,6 +27,14 @@ class TransactionListViewModel: ObservableObject {
         }
         return date
     }
+    
+    func getBalance() -> Double {
+        var result: Double = 0
+        for el in transactions {
+            result += el.sum
+        }
+        return result
+    }
 
     
     func takeDictionary() -> [String:Double] {

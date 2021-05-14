@@ -44,8 +44,6 @@ struct Homescreen : View {
                  .tabItem { Label("Analytics", systemImage: "banknote") }
                 
             }
-            .navigationTitle("")
-            .navigationBarHidden(true)
             .colorMultiply(.white)
             .edgesIgnoringSafeArea(.top)
             .accentColor(.black)
