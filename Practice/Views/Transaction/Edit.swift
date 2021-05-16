@@ -44,14 +44,15 @@ struct Edit: View {
                 
                 HStack {
                     Image(systemName: "calendar")
-                    DatePicker("", selection: $date, displayedComponents: .date).position(x: -15, y: 17)
+                    DatePicker("", selection: $date, displayedComponents: .date).position(x: -15, y: 17).accentColor(Color("AuthorizationColor"))
                 }
                 HStack {
                     Image(systemName: "text.bubble")
                     TextField(String(transactionVM.transactions[idx].commentary), text: $commentary)
                 }
             }
-        }.onAppear() {
+        }
+        .onAppear() {
             if transactionVM.transactions[idx].sum < 0 {
                 sum = String(-transactionVM.transactions[idx].sum)
                 checkExpense = true
@@ -62,6 +63,7 @@ struct Edit: View {
             commentary = transactionVM.transactions[idx].commentary
             date = transactionVM.transactions[idx].date
         }
+        .navigationBarBackButtonHidden(true)
         .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     HStack {
@@ -82,11 +84,21 @@ struct Edit: View {
                                 }
                                 presentationMode.wrappedValue.dismiss()
                                 
+                            }
+                        }
                     }
                 }
+            ToolbarItem(placement: .navigationBarLeading) {
+                HStack {
+                    Button(action: {
+                        presentationMode.wrappedValue.dismiss()
+                    }) {
+                        Image(systemName: "chevron.backward")
+                    }
+                }.accentColor(Color("AuthorizationColor"))
             }
-        }
-    }
+        }.accentColor(Color("AuthorizationColor"))
+        
     }
 
 }

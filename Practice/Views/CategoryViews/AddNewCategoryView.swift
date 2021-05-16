@@ -18,7 +18,7 @@ struct AddNewCategoryView: View {
             Section(header: Text("Name")) {
             TextField("Category", text: $detName)
             }
-        }.navigationTitle("Сost category")
+        }.navigationTitle("Update")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             Button(action: {

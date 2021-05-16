@@ -13,10 +13,16 @@ struct MenuCell: View {
     var body: some View {
         HStack(alignment: .center, spacing: 50) {
             VStack {
-                if transactionVM.category.contains("transport") {
+                if transactionVM.category.contains("Income") {
+                    Image(systemName: "dollarsign.square.fill").font(.system(size: 30))
+                } else if transactionVM.category.contains("transport") {
                     Image(systemName: "bus").font(.system(size: 30))
-                }else {
+                }else if transactionVM.category.contains("Kids") {
+                    Image(systemName: "person").font(.system(size: 30))
+                } else if transactionVM.category.contains("Edu"){
                     Image(systemName: "book").font(.system(size: 30))
+                } else {
+                    Image(systemName: "questionmark").font(.system(size: 30))
                 }
             }.frame(width: 70, height: 50, alignment: .center)
             .position(x: 15, y: 25)

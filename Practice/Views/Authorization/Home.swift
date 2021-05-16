@@ -37,6 +37,6 @@ struct Homescreen : View {
              AccountView(addNewCategory: false).tabItem { Label("Account", systemImage: "house")}
              ContentView().tabItem { Label("Transaction", systemImage: "arrow.left.arrow.right.circle")}
              DiagramView(changeFilter: false, value: 2).tabItem { Label("Analytics", systemImage: "banknote") }
-            }.colorMultiply(.white).edgesIgnoringSafeArea(.top).accentColor(.black)
+            }.colorMultiply(.white).edgesIgnoringSafeArea(.top).accentColor(Color("AuthorizationColor"))
     }
 }

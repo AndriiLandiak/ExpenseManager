@@ -16,6 +16,7 @@ struct FilterView: View {
     @State var yearIndexForMonthYear: Int = 0
     @State var yearIndexForYear: Int = 0
     
+//    @Binding var changeFilter: Bool
     @Binding var valueFromParent: Int
     @Binding var analForYear: Int // only year
     @Binding var analForYMYear: Int // year + month
@@ -25,14 +26,16 @@ struct FilterView: View {
     let years = Array(Date().year-20..<Date().year+1)
     
     var body: some View {
-        NavigationView {
             VStack {
                 Picker("C", selection: $choiceFilter, content: {
                     Text("Month").tag(0)
                     Text("Year").tag(1)
                     Text("All").tag(2)
                 }).pickerStyle(SegmentedPickerStyle())
-            
+                .frame(width: UIScreen.screenWidth - 20)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 10)                    .stroke(Color("AuthorizationColor"),lineWidth: 2)
+                )
                 if choiceFilter == 0 {
                     VStack  {
                         GeometryReader{ geometry in
@@ -72,12 +75,14 @@ struct FilterView: View {
                     .padding(.top, 100)
                 }
             }.padding(.top,10)
+            .accentColor(.black)
             .onAppear {
                 choiceFilter = valueFromParent
                 yearIndexForYear = (2021 - analForYear)
                 monthIndex = analForYMMonth
                 yearIndexForMonthYear = (2021 - analForYMYear)
             }
+        .navigationBarBackButtonHidden(true)
         .navigationBarTitle(Text("Filter"), displayMode: .inline)
         .toolbar {
             ToolbarItemGroup(placement: .navigationBarTrailing) {
@@ -93,7 +98,6 @@ struct FilterView: View {
                     }
                 }
             }
-
             ToolbarItemGroup(placement: .navigationBarLeading) {
                 Button(action: {
                     presentationMode.wrappedValue.dismiss()
@@ -102,7 +106,6 @@ struct FilterView: View {
                 }
             }
         }
-        }.accentColor(.black)
     }
 }
 

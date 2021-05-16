@@ -31,7 +31,7 @@ struct AccountView: View {
                 if selectedImage != Image("") {
                     self.selectedImage?.resizable().clipShape(Circle()).frame(width: 150, height: 150).overlay(Circle().stroke(Color("AuthorizationColor"), lineWidth: 5))
                 }else {
-                    Image(systemName: "person.crop.circle").resizable().frame(width: 150, height: 150).clipShape(Circle()).overlay(Circle().stroke(Color("AuthorizationColor"), lineWidth: 0))
+                    Image(systemName: "person.circle").resizable().frame(width: 150, height: 150).clipShape(Circle()).overlay(Circle().stroke(Color("AuthorizationColor"), lineWidth: 0))
                 }
             }
             .frame(width:150, height: 150)
@@ -48,8 +48,7 @@ struct AccountView: View {
                     .cancel()
                 ])
             }.accentColor(Color("AuthorizationColor"))
-
-            Text(Auth.auth().currentUser?.email ?? "")
+            Text(Auth.auth().currentUser?.email ?? "").foregroundColor(Color("AuthorizationColor"))
                 .font(.system(size: 20))
                 .padding(.top, 10)
             Spacer()
@@ -113,7 +112,6 @@ struct AccountManagerHeader: View {
 
 struct AccountHeader: View {
     let balance: Double
-    
     var body: some View {
         ZStack {
             HStack {
@@ -122,7 +120,7 @@ struct AccountHeader: View {
                     .frame(minWidth: 0, maxWidth: .infinity)
                     .font(.system(size: 25))
                     .foregroundColor(Color("AuthorizationColor"))
-                Text(String(balance) + " $ ")
+                Text(String(balance.rounded(2)) + " $ ")
                     .multilineTextAlignment(.trailing)
                     .frame(minWidth: 0, maxWidth: .infinity)
                     .font(.system(size: 25))
@@ -136,6 +134,11 @@ struct AccountHeader: View {
         }.frame(width: UIScreen.screenWidth, height: 150)
         .padding(.top, 0)
     }
-
 }
 
+extension Double {
+    func rounded(_ digits: Int) -> Double {
+        let multiplier = pow(10.0, Double(digits))
+        return (self * multiplier).rounded() / multiplier
+    }
+}
