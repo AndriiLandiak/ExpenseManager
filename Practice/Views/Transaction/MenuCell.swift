@@ -13,7 +13,11 @@ struct MenuCell: View {
     var body: some View {
         HStack(alignment: .center, spacing: 50) {
             VStack {
-                Image(systemName: "book").font(.system(size: 30))
+                if transactionVM.category.contains("transport") {
+                    Image(systemName: "bus").font(.system(size: 30))
+                }else {
+                    Image(systemName: "book").font(.system(size: 30))
+                }
             }.frame(width: 70, height: 50, alignment: .center)
             .position(x: 15, y: 25)
             VStack(alignment: .leading, spacing: 0) {

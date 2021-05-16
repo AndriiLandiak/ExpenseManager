@@ -32,20 +32,11 @@ struct Home : View {
 
 
 struct Homescreen : View {
-    
     var body: some View{
-            
             TabView {
-             AccountView(addNewCategory: false)
-                 .tabItem { Label("Account", systemImage: "house")}
-             ContentView()
-                 .tabItem { Label("Transaction", systemImage: "arrow.left.arrow.right.circle")}
-             DiagramView(changeFilter: false, value: 2)
-                 .tabItem { Label("Analytics", systemImage: "banknote") }
-                
-            }
-            .colorMultiply(.white)
-            .edgesIgnoringSafeArea(.top)
-            .accentColor(.black)
+             AccountView(addNewCategory: false).tabItem { Label("Account", systemImage: "house")}
+             ContentView().tabItem { Label("Transaction", systemImage: "arrow.left.arrow.right.circle")}
+             DiagramView(changeFilter: false, value: 2).tabItem { Label("Analytics", systemImage: "banknote") }
+            }.colorMultiply(.white).edgesIgnoringSafeArea(.top).accentColor(.black)
     }
 }

@@ -27,27 +27,29 @@ struct Edit: View {
     
     var body: some View {
         Form {
-            if transactionVM.transactions[idx].sum < 0 {
-                Text("Expense").frame(minWidth:0, maxWidth: .infinity)
-            }else {
-                Text("Income").frame(minWidth:0, maxWidth: .infinity)
-            }
-            HStack {
-                Image(systemName: "bag")
+            if transactionVM.transactions.count != idx  {
                 if transactionVM.transactions[idx].sum < 0 {
-                    TextField(String(transactionVM.transactions[idx].sum), text: $sum).keyboardType(.numberPad).multilineTextAlignment(.trailing)
-                }else {
-                    TextField(String(transactionVM.transactions[idx].sum), text: $sum).keyboardType(.numberPad).multilineTextAlignment(.trailing)
+                    Text("Expense").frame(minWidth:0, maxWidth: .infinity)
+                }else if transactionVM.transactions.count != 0 {
+                    Text("Income").frame(minWidth:0, maxWidth: .infinity)
                 }
-            }
-            
-            HStack {
-                Image(systemName: "calendar") 
-                DatePicker("", selection: $date, displayedComponents: .date).position(x: -15, y: 17)
-            }
-            HStack {
-                Image(systemName: "text.bubble")
-                TextField(String(transactionVM.transactions[idx].commentary), text: $commentary)
+                HStack {
+                    Image(systemName: "bag")
+                    if transactionVM.transactions[idx].sum < 0 {
+                        TextField(String(transactionVM.transactions[idx].sum), text: $sum).keyboardType(.numberPad).multilineTextAlignment(.trailing)
+                    }else{
+                        TextField(String(transactionVM.transactions[idx].sum), text: $sum).keyboardType(.numberPad).multilineTextAlignment(.trailing)
+                    }
+                }
+                
+                HStack {
+                    Image(systemName: "calendar")
+                    DatePicker("", selection: $date, displayedComponents: .date).position(x: -15, y: 17)
+                }
+                HStack {
+                    Image(systemName: "text.bubble")
+                    TextField(String(transactionVM.transactions[idx].commentary), text: $commentary)
+                }
             }
         }.onAppear() {
             if transactionVM.transactions[idx].sum < 0 {

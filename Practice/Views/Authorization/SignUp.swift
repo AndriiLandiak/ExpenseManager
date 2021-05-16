@@ -146,40 +146,32 @@ struct SignUp : View {
     }
     
     func register(){
-
         if self.email != ""{
-
             if self.pass == self.repass{
-                    
                         Auth.auth().createUser(withEmail: self.email, password: self.pass) { (res, err) in
-
                             if err != nil{
-
                                 self.error = err!.localizedDescription
                                 self.alert.toggle()
                                 return
                             }
-                            
                             category.addDefaultCategoryForUser(userEmail: self.email)
                             
-                            print("success")
-
                             UserDefaults.standard.set(true, forKey: "status")
                             NotificationCenter.default.post(name: NSNotification.Name("status"), object: nil)
-                            
                         }
             }
             
             else{
-
                 self.error = "Password mismatch"
                 self.alert.toggle()
             }
         }
         else{
-
             self.error = "Please fill all the contents properly"
             self.alert.toggle()
         }
     }
+    
+    
+    
 }

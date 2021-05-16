@@ -20,6 +20,5 @@ class CategoryListViewModel: ObservableObject {
         let bday = categories[index]
         ManageData.shared.removeCategory(id: bday.id)
     }
-    
 }
 

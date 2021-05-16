@@ -31,7 +31,7 @@ struct AccountView: View {
                 if selectedImage != Image("") {
                     self.selectedImage?.resizable().clipShape(Circle()).frame(width: 150, height: 150).overlay(Circle().stroke(Color("AuthorizationColor"), lineWidth: 5))
                 }else {
-                    Image(systemName: "person.crop.circle").resizable().frame(width: 150, height: 150).clipShape(Circle()).overlay(Circle().stroke(Color.clear, lineWidth: 0))
+                    Image(systemName: "person.crop.circle").resizable().frame(width: 150, height: 150).clipShape(Circle()).overlay(Circle().stroke(Color("AuthorizationColor"), lineWidth: 0))
                 }
             }
             .frame(width:150, height: 150)
@@ -41,6 +41,9 @@ struct AccountView: View {
                                 .default(Text("Choose from library"), action: {
                                     self.showImagePicker = true
                                     self.sourceType = .photoLibrary
+                                }),
+                                .default(Text("Delete photo"), action: {
+                                    self.selectedImage = Image("")
                                 }),
                     .cancel()
                 ])
@@ -125,7 +128,7 @@ struct AccountHeader: View {
                     .font(.system(size: 25))
                     .foregroundColor(Color("AuthorizationColor"))
             }
-            .frame(width: UIScreen.screenWidth-20, height: 80, alignment: .trailing)
+            .frame(width: UIScreen.screenWidth-60, height: 80, alignment: .trailing)
             .overlay(
                 RoundedRectangle(cornerRadius: 10)                    .stroke(Color("AuthorizationColor"),lineWidth: 2)
             )

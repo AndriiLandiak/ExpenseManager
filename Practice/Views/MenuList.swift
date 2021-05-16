@@ -117,9 +117,6 @@ struct CustomHeader: View {
     }
 }
 
-
-
-
 struct MenuList: View {
     
     init() {
@@ -129,4 +126,3 @@ struct MenuList: View {
         Home()
     }
 }
-

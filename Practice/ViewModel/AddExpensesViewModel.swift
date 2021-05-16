@@ -18,3 +18,4 @@ class AddExpensesViewModel {
         ManageData.shared.updateTrasaction(id: transaction.id, sum: -transaction.sum, date: transaction.date, commentary: transaction.commentary)
     }
 }
+
