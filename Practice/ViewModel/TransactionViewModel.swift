@@ -23,10 +23,11 @@ class TransactionViewModel: Identifiable {
     var category: String
     var commentary: String
     var userEmail: String
+    var card: Bool
     
-    var returnAll: String {
-        return category + " " + commentary + " " +  userEmail
-    }
+//    var returnAll: String {
+//        return category + " " + commentary + " " +  userEmail
+//    }
     
     var monthAndDayFormatter: DateFormatter = {
         let f = DateFormatter()
@@ -80,15 +81,17 @@ class TransactionViewModel: Identifiable {
         self.category = transaction.category ?? ""
         self.commentary = transaction.commentary ?? ""
         self.userEmail = transaction.userEmail ?? ""
+        self.card = transaction.creditCard
     }
     
-    init(id: UUID, sum: Double, date: Date, category: String, commentary: String, userEmail: String) {
+    init(id: UUID, sum: Double, date: Date, category: String, commentary: String, userEmail: String, card: Bool) {
         self.id = id
         self.sum = sum
         self.date = date
         self.category = category
         self.commentary = commentary
         self.userEmail = userEmail
+        self.card = card
     }
 }
 

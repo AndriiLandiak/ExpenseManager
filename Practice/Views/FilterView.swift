@@ -34,7 +34,7 @@ struct FilterView: View {
                 }).pickerStyle(SegmentedPickerStyle())
                 .frame(width: UIScreen.screenWidth - 20)
                 .overlay(
-                    RoundedRectangle(cornerRadius: 10)                    .stroke(Color("AuthorizationColor"),lineWidth: 2)
+                    RoundedRectangle(cornerRadius: 10)                    .stroke(Color.clear,lineWidth: 2)
                 )
                 if choiceFilter == 0 {
                     VStack  {

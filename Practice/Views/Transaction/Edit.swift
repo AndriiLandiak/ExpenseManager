@@ -24,35 +24,58 @@ struct Edit: View {
     @State private var commentary: String = ""
     @State private var sum: String = ""
     @State private var date = Date()
+    @State private var creditCard = false
+    @State var choiceFilter: Int = 0// to show week picker, year picker or smth like that
+    @State var alert = false
+    @State var error = ""
     
     var body: some View {
-        Form {
-            if transactionVM.transactions.count != idx  {
-                if transactionVM.transactions[idx].sum < 0 {
-                    Text("Expense").frame(minWidth:0, maxWidth: .infinity)
-                }else if transactionVM.transactions.count != 0 {
-                    Text("Income").frame(minWidth:0, maxWidth: .infinity)
-                }
-                HStack {
-                    Image(systemName: "bag")
-                    if transactionVM.transactions[idx].sum < 0 {
-                        TextField(String(transactionVM.transactions[idx].sum), text: $sum).keyboardType(.numberPad).multilineTextAlignment(.trailing)
-                    }else{
-                        TextField(String(transactionVM.transactions[idx].sum), text: $sum).keyboardType(.numberPad).multilineTextAlignment(.trailing)
+        VStack {
+            ZStack {
+                Form {
+                    if transactionVM.transactions.count != idx  {
+                        if transactionVM.transactions[idx].sum < 0 {
+                            Text("Expense").frame(minWidth:0, maxWidth: .infinity)
+                        }else if transactionVM.transactions.count != 0 {
+                            Text("Income").frame(minWidth:0, maxWidth: .infinity)
+                        }
+                        Picker("", selection: $choiceFilter, content: {
+                            Text("Cash").tag(0)
+                            Text("Credit card").tag(1)
+                        }).pickerStyle(SegmentedPickerStyle())
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10)                    .stroke(Color.clear,lineWidth: 2)
+                        )
+                        HStack {
+                            Image(systemName: "bag")
+                            if transactionVM.transactions[idx].sum < 0 {
+                                TextField(String(transactionVM.transactions[idx].sum), text: $sum).keyboardType(.numberPad).multilineTextAlignment(.trailing)
+                            }else{
+                                TextField(String(transactionVM.transactions[idx].sum), text: $sum).keyboardType(.numberPad).multilineTextAlignment(.trailing)
+                            }
+                        }
+                        
+                        HStack {
+                            Image(systemName: "calendar")
+                            DatePicker("", selection: $date, displayedComponents: .date).position(x: -15, y: 17).accentColor(Color("AuthorizationColor"))
+                        }
+                        HStack {
+                            Image(systemName: "text.bubble")
+                            TextField(String(transactionVM.transactions[idx].commentary), text: $commentary)
+                        }
                     }
                 }
-                
-                HStack {
-                    Image(systemName: "calendar")
-                    DatePicker("", selection: $date, displayedComponents: .date).position(x: -15, y: 17).accentColor(Color("AuthorizationColor"))
-                }
-                HStack {
-                    Image(systemName: "text.bubble")
-                    TextField(String(transactionVM.transactions[idx].commentary), text: $commentary)
+                if self.alert{
+                    ErrorView(alert: self.$alert, error: self.$error)
                 }
             }
         }
         .onAppear() {
+            if transactionVM.transactions[idx].card {
+                choiceFilter = 1
+            } else {
+                choiceFilter = 0
+            }
             if transactionVM.transactions[idx].sum < 0 {
                 sum = String(-transactionVM.transactions[idx].sum)
                 checkExpense = true
@@ -74,16 +97,25 @@ struct Edit: View {
                             Image(systemName: "trash")
                         }
                         Button("Save") {
-                            if commentary != transactionVM.transactions[idx].commentary || Double(sum) != transactionVM.transactions[idx].sum ||
-                                date != transactionVM.transactions[idx].date {
-                                let transNew = TransactionViewModel(id: transactionVM.transactions[idx].id, sum: Double(sum) ?? 0, date: date, category: transactionVM.transactions[idx].category, commentary: commentary, userEmail: user)
-                                if checkExpense {
-                                    expViewModel.updateTransaction(transaction: transNew)
-                                } else {
-                                    incViewModel.updateTransaction(transaction: transNew)
+                            if (Double(sum) ?? 0) == 0 {
+                                self.error = "Enter correct sum"
+                                self.alert.toggle()
+                            } else {
+                                if commentary != transactionVM.transactions[idx].commentary || Double(sum) != transactionVM.transactions[idx].sum ||
+                                    date != transactionVM.transactions[idx].date {
+                                    if choiceFilter == 0 {
+                                        creditCard = false
+                                    } else if choiceFilter == 1{
+                                        creditCard = true
+                                    }
+                                    let transNew = TransactionViewModel(id: transactionVM.transactions[idx].id, sum: Double(sum) ?? 0, date: date, category: transactionVM.transactions[idx].category, commentary: commentary, userEmail: user, card: creditCard)
+                                    if checkExpense {
+                                        expViewModel.updateTransaction(transaction: transNew)
+                                    } else {
+                                        incViewModel.updateTransaction(transaction: transNew)
+                                    }
+                                    presentationMode.wrappedValue.dismiss()
                                 }
-                                presentationMode.wrappedValue.dismiss()
-                                
                             }
                         }
                     }
@@ -98,9 +130,5 @@ struct Edit: View {
                 }.accentColor(Color("AuthorizationColor"))
             }
         }.accentColor(Color("AuthorizationColor"))
-        
     }
-
 }
-
-//testing

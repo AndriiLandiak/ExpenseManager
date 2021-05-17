@@ -13,6 +13,7 @@ class AddNewIncomeOutcome: ObservableObject {
     @Published var commentary: String = ""
     @Published var sum: String = ""
     @Published var date = Date()
+    @Published var creditCard = false
 }
 
 struct Expenses: View {
@@ -27,16 +28,26 @@ struct Expenses: View {
     @State var addNewCategory: Bool
     @State private var selectedFrameworkIndex: Int = -1
     @State var choiceFilter: Int
+    @State var cashFilter: Int = 0
+    @State var alert = false
+    @State var error = ""
     
     var body: some View {
         VStack {
             if choiceFilter == 1 {
-                VStack {
+                ZStack {
                     Form {
                         HStack {
                             Image(systemName: "bag")
                             TextField("0", text: $newData.sum).keyboardType(.numberPad).multilineTextAlignment(.trailing)
                         }
+                        Picker("", selection: $cashFilter, content: {
+                            Text("Cash").tag(0)
+                            Text("Credit card").tag(1)
+                        }).pickerStyle(SegmentedPickerStyle())
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10)                    .stroke(Color.clear,lineWidth: 2)
+                        )
                         VStack {
                             Picker("Category: ", selection: $selectedFrameworkIndex) {
                                 ForEach(categoryVM.categories.indices, id: \.self) { idx in
@@ -61,14 +72,24 @@ struct Expenses: View {
                             TextField("Commentary", text: $newData.commentary)
                         }
                     }
+                    if self.alert{
+                        ErrorView(alert: self.$alert, error: self.$error)
+                    }
                 }
             } else {
-                VStack {
+                ZStack {
                     Form {
                         HStack {
                             Image(systemName: "bag")
                             TextField("0", text: $newData.sum).keyboardType(.numberPad).multilineTextAlignment(.trailing)
                         }
+                        Picker("", selection: $cashFilter, content: {
+                            Text("Cash").tag(0)
+                            Text("Credit card").tag(1)
+                        }).pickerStyle(SegmentedPickerStyle())
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10)                    .stroke(Color.clear,lineWidth: 2)
+                        )
                         HStack {
                             Image(systemName: "calendar")
                             DatePicker("", selection: $newData.date, in: ...Date(), displayedComponents: .date).position(x: 70, y: 16).labelsHidden()
@@ -79,6 +100,9 @@ struct Expenses: View {
                             TextField("Commentary", text: $newData.commentary)
                         }
                     }.listStyle(GroupedListStyle())
+                    if self.alert{
+                        ErrorView(alert: self.$alert, error: self.$error)
+                    }
                 }
             }
         }
@@ -92,10 +116,15 @@ struct Expenses: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     HStack (spacing: 30) {
                         Button(action: {
-                            if choiceFilter == 0 {
-                                self.addNewIncome()
+                            if (Double(newData.sum) ?? 0) == 0 {
+                                self.error = "Enter correct sum"
+                                self.alert.toggle()
                             } else {
-                                self.addNewExpenses()
+                                if choiceFilter == 0 {
+                                    self.addNewIncome()
+                                } else {
+                                    self.addNewExpenses()
+                                }
                             }
                             
                         }) {
@@ -139,20 +168,30 @@ struct Expenses: View {
         })
     }
     func addNewExpenses() {
-        if categoryVM.categories.count > 0 && selectedFrameworkIndex >= 0 {
-            let transaction23 = TransactionViewModel(id: UUID(), sum: Double(newData.sum) ?? 0, date: newData.date, category: categoryVM.categories[selectedFrameworkIndex].name, commentary: newData.commentary, userEmail: user)
-            viewModelExpensen.addTransaction(transaction: transaction23)
-        }else {
-            let transaction23 = TransactionViewModel(id: UUID(), sum: Double(newData.sum) ?? 0, date: newData.date, category: "No category", commentary: newData.commentary, userEmail: user)
-            viewModelExpensen.addTransaction(transaction: transaction23)
-        }
-        addNewPresented.toggle()
+            if cashFilter == 0 {
+                newData.creditCard = false
+            } else if cashFilter == 1 {
+                newData.creditCard = true
+            }
+            if categoryVM.categories.count > 0 && selectedFrameworkIndex >= 0 {
+                let transaction23 = TransactionViewModel(id: UUID(), sum: Double(newData.sum) ?? 0, date: newData.date, category: categoryVM.categories[selectedFrameworkIndex].name, commentary: newData.commentary, userEmail: user, card: newData.creditCard)
+                viewModelExpensen.addTransaction(transaction: transaction23)
+            }else {
+                let transaction23 = TransactionViewModel(id: UUID(), sum: Double(newData.sum) ?? 0, date: newData.date, category: "No category", commentary: newData.commentary, userEmail: user, card: newData.creditCard)
+                viewModelExpensen.addTransaction(transaction: transaction23)
+            }
+            addNewPresented.toggle()
     }
     
     func addNewIncome() {
-        let transaction23 = TransactionViewModel(id: UUID(), sum: Double(newData.sum) ?? 0, date: newData.date, category: "Income", commentary: newData.commentary, userEmail: user)
-        viewModelIncome.addTransaction(transaction: transaction23)
-        addNewPresented.toggle()
+            if cashFilter == 0 {
+                newData.creditCard = false
+            } else if cashFilter == 1 {
+                newData.creditCard = true
+            }
+            let transaction23 = TransactionViewModel(id: UUID(), sum: Double(newData.sum) ?? 0, date: newData.date, category: "Income", commentary: newData.commentary, userEmail: user, card: newData.creditCard)
+            viewModelIncome.addTransaction(transaction: transaction23)
+            addNewPresented.toggle()
     }
     
     func delete(at offsets: IndexSet) {
@@ -165,5 +204,3 @@ struct Expenses: View {
         self.categoryVM.fetchAllCategory(userEmail: user)
     }
 }
-
-

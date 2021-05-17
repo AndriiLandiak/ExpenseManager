@@ -1,8 +1,8 @@
 //
-//  Manage.swift
+//  ManageDat.swift
 //  Practice
 //
-//  Created by Andrew Landiak on 14.05.2021.
+//  Created by Andrew Landiak on 01.05.2021.
 //
 
 import Foundation
@@ -40,7 +40,7 @@ public class ManageData {
         return correctTransfer
     }
     
-    func addTrasaction(id: UUID,  sum: Double, date: Date, category: String, commentary: String, userEmail: String) {
+    func addTrasaction(id: UUID,  sum: Double, date: Date, category: String, commentary: String, userEmail: String, card: Bool) {
         let t = Transaction(context: self.managedContext)
         t.id = id
         t.date = date
@@ -48,6 +48,7 @@ public class ManageData {
         t.category = category
         t.commentary = commentary
         t.userEmail = userEmail
+        t.creditCard = card
         do {
             try self.managedContext.save()
         } catch {
@@ -69,7 +70,7 @@ public class ManageData {
         }
     }
     
-    func updateTrasaction(id: UUID, sum: Double, date: Date, commentary:String) {
+    func updateTrasaction(id: UUID, sum: Double, date: Date, commentary:String, creditCard: Bool) {
         let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
         fetchRequest.predicate = NSPredicate.init(format: "id=%@", id.uuidString)
         do {
@@ -77,6 +78,7 @@ public class ManageData {
             trsfrs?.date = date
             trsfrs?.sum = sum
             trsfrs?.commentary = commentary
+            trsfrs?.creditCard = creditCard
             try self.managedContext.save()
         } catch {
             print(error)

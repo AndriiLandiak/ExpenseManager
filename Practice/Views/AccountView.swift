@@ -23,8 +23,8 @@ struct AccountView: View {
     
     var body: some View {
         VStack {
-            AccountManagerHeader()
-            AccountHeader(balance: balanceVM.getBalance())
+//            AccountManagerHeader()
+//            AccountHeader(balance: balanceVM.getBalance())
             Button {
                 self.showActionSheet = true
             } label: {
@@ -34,7 +34,7 @@ struct AccountView: View {
                     Image(systemName: "person.circle").resizable().frame(width: 150, height: 150).clipShape(Circle()).overlay(Circle().stroke(Color("AuthorizationColor"), lineWidth: 0))
                 }
             }
-            .frame(width:150, height: 150)
+            .frame(width:200, height: 200)
             .padding(.top, 20)
             .actionSheet(isPresented: $showActionSheet) {
                 ActionSheet(title: Text("Add photo"), buttons: [
@@ -49,8 +49,10 @@ struct AccountView: View {
                 ])
             }.accentColor(Color("AuthorizationColor"))
             Text(Auth.auth().currentUser?.email ?? "").foregroundColor(Color("AuthorizationColor"))
-                .font(.system(size: 20))
+                .font(.system(size: 25))
                 .padding(.top, 10)
+            Spacer()
+            AccountHeader(balance: balanceVM.getBalance())
             Spacer()
             VStack {
                 Button(action: {
