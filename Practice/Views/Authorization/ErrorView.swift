@@ -14,9 +14,7 @@ struct ErrorView : View {
     @Binding var error : String
     
     var body: some View{
-        
         GeometryReader{_ in
-            
             VStack{
                 
                 HStack{

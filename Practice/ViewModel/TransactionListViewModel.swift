@@ -16,13 +16,14 @@ class TransactionListViewModel: ObservableObject {
     func groupBy() -> [Day] {
         var date = [Day]()
         let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .medium
-        dateFormatter.timeStyle = .none
-        
-        let grouped = Dictionary(grouping: transactions)  { (occurrence: TransactionViewModel) -> String in
-            dateFormatter.string(from: occurrence.date)
+        dateFormatter.dateFormat = "yyyy/MM/dd"
+        let grouped = Dictionary(grouping: transactions)  { (occurrence: TransactionViewModel) -> Date in
+            dateFormatter.date(from: dateFormatter.string(from: occurrence.date))!
         }
-        date = grouped.map { day -> Day in
+        let sortedGrouped = grouped.sorted(by: {
+            $0.0 > $1.0
+        })
+        date = sortedGrouped.map { day -> Day in
             Day(id: day.value[0].id, dateString: day.value[0].correctDate, tr: day.value)
         }
         return date
@@ -36,7 +37,6 @@ class TransactionListViewModel: ObservableObject {
         return result
     }
 
-    
     func takeDictionary() -> [String:Double] {
         var emptyDict: [String: Double] = [:]
         for el in transactions {
@@ -102,4 +102,3 @@ class TransactionListViewModel: ObservableObject {
         ManageData.shared.removeTrasaction(id: bday.id)
     }
 }
-

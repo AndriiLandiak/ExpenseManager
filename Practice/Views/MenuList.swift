@@ -9,16 +9,22 @@
 import SwiftUI
 import Firebase
 
+struct MenuList: View {
+    
+    init() {
+        UITabBar.appearance().barTintColor = UIColor.white
+    }
+    var body: some View {
+        Home()
+    }
+}
+
 struct ContentView: View {
     
     @ObservedObject var transactionVM = TransactionListViewModel()
     
     @State private var checkButtonTransaction = false // to check if button add trans was clicked
-    @State private var newCategory = false
-    @State private var areYouGoingToIncomeView = false
-    @State private var areYouGoingToOutcomeView = false
     @State private var forSearchBar = false
-    @State private var tapOnButton = false // when tap on plus and we should make gray screen
     @State private var searchText: String = ""
     let user = Auth.auth().currentUser?.email ?? ""
     var daySections: [Day] {
@@ -29,9 +35,6 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                if tapOnButton {
-                    Print("pomidor")
-                }
                 List {
                     if forSearchBar {
                         SearchBar(text: $searchText)
@@ -50,7 +53,6 @@ struct ContentView: View {
                             }
                             .textCase(nil)
                         }
-    //                    .onDelete(perform: delete(at:))
                     }
                 }
                 .onAppear {
@@ -77,82 +79,12 @@ struct ContentView: View {
                         Text(String(transactionVM.getBalance().rounded(2)) + " $").font(Font.body.bold())
                     }
                   }
-                if checkButtonTransaction {
-                    VStack {
-                        Spacer()
-                        HStack {
-                            Spacer()
-                            VStack {
-                                HStack  {
-                                    Text("Expense")
-                                        .padding(.trailing, -10)
-                                        .padding(.bottom, 2)
-                                    Button(action: {
-                                        areYouGoingToIncomeView = false
-                                        areYouGoingToOutcomeView = true
-                                        refreshData()
-                                    }, label: {
-                                        Text("-")
-                                        .font(.system(.largeTitle))
-                                        .frame(width: 57, height: 50)
-                                        .foregroundColor(Color.white)
-                                        .padding(.bottom, 5)
-                                    })
-                                    .background(
-                                        NavigationLink(destination: Expenses(addNewPresented: $areYouGoingToOutcomeView, addNewCategory: newCategory, choiceFilter: 1), isActive: $areYouGoingToOutcomeView) {
-                                            EmptyView()
-                                        }
-                                    )
-                                    .background(Color("PlusColor"))
-                                    .cornerRadius(38.5)
-                                    .padding()
-                                    .padding(.trailing, 0)
-                                    .shadow(color: Color.black.opacity(0.3),
-                                            radius: 3,
-                                            x: 3,
-                                            y: 3)
-                                }
-                                HStack  {
-                                    Text("Income")
-                                        .padding(.trailing, -10)
-                                        .padding(.bottom, 5)
-                                    Button(action: {
-                                        areYouGoingToIncomeView = true
-                                        areYouGoingToOutcomeView = false
-                                        refreshData()
-                                    }, label: {
-                                        Text("+")
-                                        .font(.system(.largeTitle))
-                                        .frame(width: 57, height: 50)
-                                        .foregroundColor(Color.white)
-                                        .padding(.bottom, 5)
-                                    })
-                                    .background(
-                                        NavigationLink(destination: Expenses(addNewPresented: $areYouGoingToIncomeView, addNewCategory: newCategory, choiceFilter: 0), isActive: $areYouGoingToIncomeView) {
-                                            EmptyView()
-                                        }
-                                    )
-                                    .background(Color("PlusColor"))
-                                    .cornerRadius(38.5)
-                                    .padding()
-                                    .padding(.bottom, 0)
-                                    .padding(.trailing, -10)
-                                    .shadow(color: Color.black.opacity(0.3),
-                                            radius: 3,
-                                            x: 3,
-                                            y: 3)
-                                }
-                            }
-                        }
-                    }
-                } else {
                     VStack {
                         Spacer()
                         HStack {
                             Spacer()
                             Button(action: {
                                 checkButtonTransaction.toggle()
-                                tapOnButton.toggle()
                             }, label: {
                                 Text("+")
                                 .font(.system(.largeTitle))
@@ -169,6 +101,10 @@ struct ContentView: View {
                                     y: 3)
                         }
                     }
+                if checkButtonTransaction {
+                    ButtonScreen().onTapGesture {
+                        checkButtonTransaction = false
+                    }
                 }
             }
         }.navigationTitle("")
@@ -177,43 +113,6 @@ struct ContentView: View {
     
     func refreshData() {
         self.transactionVM.fetchAllTransaction(userEmail: user)
-    }
-    
-    func delete(at offsets: IndexSet) {
-        for index in offsets {
-            self.transactionVM.removeTransaction(at: index)
-        }
-        refreshData()
-    }
-}
-
-extension View {
-    func Print(_ vars: Any...) -> some View {
-        for v in vars { print(v) }
-        return EmptyView()
-    }
-}
-
-
-struct CustomHeader: View {
-    let name: String
-    var body: some View {
-        Text(name)
-        .padding(.leading, 15)
-        .frame(width: UIScreen.screenWidth, height: 28, alignment: .leading)
-        .background(Color("AuthorizationColor"))
-        .foregroundColor(Color.white)
-        .border(Color.black, width: 1)
-    }
-}
-
-struct MenuList: View {
-    
-    init() {
-        UITabBar.appearance().barTintColor = UIColor.white
-    }
-    var body: some View {
-        Home()
     }
 }
 
@@ -268,5 +167,101 @@ struct SearchBar: View {
                 .animation(.default)
             }
         }
+    }
+}
+
+struct ButtonScreen: View {
+    @State private var newCategory = false
+    @State private var areYouGoingToIncomeView = false
+    @State private var areYouGoingToOutcomeView = false
+    var body: some View {
+        VStack {
+            Spacer()
+            HStack {
+                Spacer()
+                VStack {
+                    HStack  {
+                        Text("Expense")
+                            .padding(.trailing, -10)
+                            .padding(.bottom, 2)
+                            .foregroundColor(Color("PlusColor"))
+                        Button(action: {
+                            areYouGoingToIncomeView = false
+                            areYouGoingToOutcomeView = true
+                        }, label: {
+                            Text("-")
+                            .font(.system(.largeTitle))
+                            .frame(width: 57, height: 50)
+                            .foregroundColor(Color.white)
+                            .padding(.bottom, 5)
+                        })
+                        .background(
+                            NavigationLink(destination: Expenses(addNewPresented: $areYouGoingToOutcomeView, addNewCategory: newCategory, choiceFilter: 1), isActive: $areYouGoingToOutcomeView) {
+                                EmptyView()
+                            }
+                        )
+                        .background(Color("PlusColor"))
+                        .cornerRadius(38.5)
+                        .padding()
+                        .padding(.trailing, 0)
+                        .shadow(color: Color.black.opacity(0.3),
+                                radius: 3,
+                                x: 3,
+                                y: 3)
+                    }
+                    HStack  {
+                        Text("Income")
+                            .padding(.trailing, -10)
+                            .padding(.bottom, 5)
+                            .foregroundColor(Color("PlusColor"))
+                        Button(action: {
+                            areYouGoingToIncomeView = true
+                            areYouGoingToOutcomeView = false
+                        }, label: {
+                            Text("+")
+                            .font(.system(.largeTitle))
+                            .frame(width: 57, height: 50)
+                            .foregroundColor(Color.white)
+                            .padding(.bottom, 5)
+                        })
+                        .background(
+                            NavigationLink(destination: Expenses(addNewPresented: $areYouGoingToIncomeView, addNewCategory: newCategory, choiceFilter: 0), isActive: $areYouGoingToIncomeView) {
+                                EmptyView()
+                            }
+                        )
+                        .background(Color("PlusColor"))
+                        .cornerRadius(38.5)
+                        .padding()
+                        .padding(.bottom, 0)
+                        .padding(.trailing, -10)
+                        .shadow(color: Color.black.opacity(0.3),
+                                radius: 3,
+                                x: 3,
+                                y: 3)
+                    }
+                }
+            }
+        }
+        .background(Color("GrayColor").edgesIgnoringSafeArea(.all))
+    }
+}
+
+
+struct CustomHeader: View {
+    let name: String
+    var body: some View {
+        Text(name)
+        .padding(.leading, 15)
+        .frame(width: UIScreen.screenWidth, height: 28, alignment: .leading)
+        .background(Color("AuthorizationColor"))
+        .foregroundColor(Color.white)
+        .border(Color.black, width: 1)
+    }
+}
+
+extension View {
+    func Print(_ vars: Any...) -> some View {
+        for v in vars { print(v) }
+        return EmptyView()
     }
 }

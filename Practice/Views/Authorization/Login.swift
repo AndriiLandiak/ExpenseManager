@@ -18,48 +18,35 @@ struct Login : View {
     @State var show = false
     
 var body: some View{
-    
     ZStack{
-        
         ZStack(alignment: .topTrailing) {
-            
             GeometryReader{_ in
-                
                 VStack{
-                
                     VStack {
                         Image("logo").frame(width: 100, height: 100)
                     }.frame(width: 100, height: 170)
                     .padding(.top, 15)
-                    
                     Text("Login")
                         .font(.title)
                         .fontWeight(.bold)
                         .foregroundColor(self.color)
                         .padding(.top, 20)
-                    
                     TextField("Email", text: self.$email)
                     .autocapitalization(.none)
                     .padding()
                     .background(RoundedRectangle(cornerRadius: 4).stroke(self.email != "" ? Color("AuthorizationColor") : self.color,lineWidth: 2))
                     .padding(.top, 25)
-                    
                     HStack(spacing: 15){
-                        
                         VStack{
-                            
                             if self.visible{
-                                
                                 TextField("Password", text: self.$pass)
                                 .autocapitalization(.none)
                             }
                             else{
-                                
                                 SecureField("Password", text: self.$pass)
                                 .autocapitalization(.none)
                             }
                         }
-                        
                         Button(action: {
                             
                             self.visible.toggle()
@@ -177,6 +164,4 @@ var body: some View{
         self.alert.toggle()
     }
 }
-    
-    
 }
