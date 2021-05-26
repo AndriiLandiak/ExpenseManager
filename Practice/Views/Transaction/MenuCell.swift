@@ -21,6 +21,16 @@ struct MenuCell: View {
                     Image(systemName: "person").font(.system(size: 30))
                 } else if transactionVM.category.contains("Edu"){
                     Image(systemName: "book").font(.system(size: 30))
+                } else if transactionVM.category.contains("Cafe") || transactionVM.category.contains("restaur") {
+                    Image(systemName: "wallet.pass").font(.system(size:30))
+                } else if transactionVM.category.contains("Product"){
+                    Image(systemName: "cart").font(.system(size:30))
+                } else if transactionVM.category.contains("Store") {
+                    Image(systemName: "bag").font(.system(size:30))
+                } else if transactionVM.category.contains("Pharmacy"){
+                    Image(systemName: "cross").font(.system(size:30))
+                } else if transactionVM.category.contains("Cinema"){
+                    Image(systemName: "film").font(.system(size:30))
                 } else {
                     Image(systemName: "questionmark").font(.system(size: 30))
                 }

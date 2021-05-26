@@ -18,19 +18,19 @@ struct AccountView: View {
     @State var selectedImage: Image? = Image("")
     @State var sourceType: UIImagePickerController.SourceType = .photoLibrary
     @State var addNewCategory: Bool
-    
+    @State var notDeleted: Bool = true
     private let user = Auth.auth().currentUser?.email ?? ""
     
     var body: some View {
         VStack {
-//            AccountManagerHeader()
-//            AccountHeader(balance: balanceVM.getBalance())
             Button {
                 self.showActionSheet = true
             } label: {
                 if selectedImage != Image("") {
-                    self.selectedImage?.resizable().clipShape(Circle()).frame(width: 150, height: 150).overlay(Circle().stroke(Color("AuthorizationColor"), lineWidth: 5))
-                }else {
+                    self.selectedImage?.resizable().clipShape(Circle()).frame(width: 150, height: 150).overlay(Circle().stroke(Color("AuthorizationColor"), lineWidth: 3))
+                }else if user == "andriylandiak@gmail.com" && notDeleted && selectedImage == Image("") {
+                    Image("me").resizable().frame(width: 150, height: 150).clipShape(Circle()).overlay(Circle().stroke(Color("AuthorizationColor"), lineWidth: 3))
+                } else {
                     Image(systemName: "person.circle").resizable().frame(width: 150, height: 150).clipShape(Circle()).overlay(Circle().stroke(Color("AuthorizationColor"), lineWidth: 0))
                 }
             }
@@ -43,6 +43,7 @@ struct AccountView: View {
                                     self.sourceType = .photoLibrary
                                 }),
                                 .default(Text("Delete photo"), action: {
+                                    notDeleted = false
                                     self.selectedImage = Image("")
                                 }),
                     .cancel()
