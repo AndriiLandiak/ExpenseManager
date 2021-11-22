@@ -46,17 +46,24 @@ struct Expenses: View {
                             Text("Credit card").tag(1)
                         }).pickerStyle(SegmentedPickerStyle())
                         .overlay(
-                            RoundedRectangle(cornerRadius: 10)                    .stroke(Color.clear,lineWidth: 2)
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(Color.clear,lineWidth: 2)
                         )
                         VStack {
                             Picker("Category: ", selection: $selectedFrameworkIndex) {
                                 ForEach(categoryVM.categories.indices, id: \.self) { idx in
                                     if idx == categoryVM.categories.indices.last {
-                                        Text(categoryVM.categories[idx].name)
-                                            .navigationBarTitle("Select category", displayMode: .inline)
-                                            .navigationBarItems(trailing: button())
+                                        HStack{
+                                            Image(systemName: categoryVM.categories[idx].imageName)
+                                            Text(categoryVM.categories[idx].name)
+                                        }
+                                        .navigationBarTitle("Select category", displayMode: .inline)
+                                        .navigationBarItems(trailing: button())
                                     } else {
-                                        Text(categoryVM.categories[idx].name)
+                                        HStack{
+                                            Image(systemName: categoryVM.categories[idx].imageName)
+                                            Text(categoryVM.categories[idx].name)
+                                        }
                                     }
                                 }
                             }

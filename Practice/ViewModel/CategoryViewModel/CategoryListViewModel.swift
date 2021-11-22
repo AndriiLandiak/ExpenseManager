@@ -20,5 +20,11 @@ class CategoryListViewModel: ObservableObject {
         let bday = categories[index]
         ManageData.shared.removeCategory(id: bday.id)
     }
+    init(){}
+    
+    convenience init(userMail: String){
+        self.init()
+        fetchAllCategory(userEmail: userMail)
+    }
 }
 

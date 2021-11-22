@@ -25,10 +25,6 @@ class TransactionViewModel: Identifiable {
     var userEmail: String
     var card: Bool
     
-//    var returnAll: String {
-//        return category + " " + commentary + " " +  userEmail
-//    }
-    
     var monthAndDayFormatter: DateFormatter = {
         let f = DateFormatter()
         f.dateStyle = .long

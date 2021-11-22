@@ -160,7 +160,6 @@ struct SignUp : View {
                             NotificationCenter.default.post(name: NSNotification.Name("status"), object: nil)
                         }
             }
-            
             else{
                 self.error = "Password mismatch"
                 self.alert.toggle()

@@ -20,7 +20,7 @@ struct AddCategoryPicker: View {
                 }
                 Button(action: {
                     if detName != ""  {
-                        let categoryNew = CategoryViewModel(id: UUID(), name: detName, userEmail: user)
+                        let categoryNew = CategoryViewModel(id: UUID(), name: detName, userEmail: user, imageName: "")
                         viewModel.addCategory(category: categoryNew)
                         presentationMode.wrappedValue.dismiss()
                     } else {

@@ -108,11 +108,12 @@ public class ManageData {
         return correctCategory
     }
     
-    func addCategory(id: UUID, name: String, userEmail: String) {
+    func addCategory(id: UUID, name: String, userEmail: String, imageName: String) {
         let t = CatEntity(context: self.managedContext)
         t.id = id
         t.name = name
         t.userEmail = userEmail
+        t.imageName = imageName
         print(t)
         do {
             try self.managedContext.save()
@@ -138,12 +139,13 @@ public class ManageData {
         }
     }
     
-    func updateCategory(id: UUID, name:String) {
+    func updateCategory(id: UUID, name:String, imageName: String) {
         let fetchRequest: NSFetchRequest<CatEntity> = CatEntity.fetchRequest()
         fetchRequest.predicate = NSPredicate.init(format: "id=%@", id.uuidString)
         do {
             let trsfrs = try self.managedContext.fetch(fetchRequest).first
             trsfrs?.name = name
+            trsfrs?.imageName = imageName
             try self.managedContext.save()
         } catch {
             print(error)

@@ -24,8 +24,11 @@ struct CategoryView: View {
             List() {
                 ForEach(self.categoryVM.categories.indices, id: \.self) { idx in
                            NavigationLink(
-                            destination: CategoryDetail(transactionVM: categoryVM.categories[idx], categoryName:  categoryVM.categories[idx].name)) {
-                            Text(categoryVM.categories[idx].name)
+                            destination: CategoryDetail(transactionVM: categoryVM.categories[idx])) {
+                                HStack{
+                                    Image(systemName: categoryVM.categories[idx].imageName)
+                                    Text(categoryVM.categories[idx].name)
+                                }
                            }
                     }.onDelete(perform:delete(at:))
             }.onAppear() {

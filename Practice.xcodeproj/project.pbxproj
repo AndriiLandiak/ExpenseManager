@@ -40,6 +40,8 @@
 		666493CC2640558D00552C46 /* DiagramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666493CB2640558D00552C46 /* DiagramView.swift */; };
 		66BAA744264178DF00CE8F9C /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66BAA743264178DF00CE8F9C /* FilterView.swift */; };
 		66E485EC2639582500C99854 /* AddIncomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E485EB2639582500C99854 /* AddIncomeViewModel.swift */; };
+		913DF25F274C3AB000B95E1F /* CustonTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913DF25E274C3AB000B95E1F /* CustonTextField.swift */; };
+		91B193CC2746DEFB00F7B660 /* IconsPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B193CB2746DEFA00F7B660 /* IconsPickerView.swift */; };
 		9C12DF2A68F1C460256D178F /* Pods_Practice.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF04D0310ACBC53A5BA3419C /* Pods_Practice.framework */; };
 /* End PBXBuildFile section */
 
@@ -80,6 +82,8 @@
 		666493CB2640558D00552C46 /* DiagramView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiagramView.swift; sourceTree = "<group>"; };
 		66BAA743264178DF00CE8F9C /* FilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterView.swift; sourceTree = "<group>"; };
 		66E485EB2639582500C99854 /* AddIncomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddIncomeViewModel.swift; sourceTree = "<group>"; };
+		913DF25E274C3AB000B95E1F /* CustonTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustonTextField.swift; sourceTree = "<group>"; };
+		91B193CB2746DEFA00F7B660 /* IconsPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconsPickerView.swift; sourceTree = "<group>"; };
 		A0E7192289FCA79A95E2C6A2 /* Pods-Practice.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Practice.debug.xcconfig"; path = "Target Support Files/Pods-Practice/Pods-Practice.debug.xcconfig"; sourceTree = "<group>"; };
 		CF04D0310ACBC53A5BA3419C /* Pods_Practice.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Practice.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -245,6 +249,8 @@
 				666493B9263C429E00552C46 /* CategoryView.swift */,
 				666493C4263D52E500552C46 /* AddNewCategoryView.swift */,
 				666493C626401D6700552C46 /* AddCategoryPicker.swift */,
+				91B193CB2746DEFA00F7B660 /* IconsPickerView.swift */,
+				913DF25E274C3AB000B95E1F /* CustonTextField.swift */,
 			);
 			path = CategoryViews;
 			sourceTree = "<group>";
@@ -388,6 +394,7 @@
 				662802A42633623100B8BD59 /* Edit.swift in Sources */,
 				666493BA263C429E00552C46 /* CategoryView.swift in Sources */,
 				666493C726401D6700552C46 /* AddCategoryPicker.swift in Sources */,
+				913DF25F274C3AB000B95E1F /* CustonTextField.swift in Sources */,
 				66536B3426455EE200476D66 /* ErrorView.swift in Sources */,
 				666493C3263C6C6D00552C46 /* CategoryDetail.swift in Sources */,
 				666493B8263C40FD00552C46 /* AddUpdateCategory.swift in Sources */,
@@ -409,6 +416,7 @@
 				6647B10C262DC4290021CEA0 /* MenuList.swift in Sources */,
 				666493B4263C3FBE00552C46 /* CategoryViewModel.swift in Sources */,
 				666493B6263C400000552C46 /* CategoryListViewModel.swift in Sources */,
+				91B193CC2746DEFB00F7B660 /* IconsPickerView.swift in Sources */,
 				666493CC2640558D00552C46 /* DiagramView.swift in Sources */,
 				66551E1D264E7FB60094ED0F /* ImagePicker.swift in Sources */,
 				662802922632F41300B8BD59 /* TransactionListViewModel.swift in Sources */,

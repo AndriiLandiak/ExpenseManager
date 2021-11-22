@@ -20,13 +20,13 @@ struct MenuList: View {
 }
 
 struct ContentView: View {
-    
     @ObservedObject var transactionVM = TransactionListViewModel()
     
     @State private var checkButtonTransaction = false // to check if button add trans was clicked
     @State private var forSearchBar = false
     @State private var searchText: String = ""
     let user = Auth.auth().currentUser?.email ?? ""
+    var categoryVM = CategoryListViewModel(userMail: Auth.auth().currentUser?.email ?? "")
     var daySections: [Day] {
         get {
             return transactionVM.groupBy()
@@ -47,7 +47,7 @@ struct ContentView: View {
                                 ForEach(section.tr) { trans in
                                     NavigationLink(
                                         destination: Edit(transactionVM: transactionVM, idx: transactionVM.checkViewModel(trans: trans),  addNewCategory: false)) {
-                                        MenuCell(transactionVM: trans).shadow(radius:10)
+                                            MenuCell(transactionVM: trans, categoryVM: categoryVM).shadow(radius:10)
                                         }
                                 }
                             }

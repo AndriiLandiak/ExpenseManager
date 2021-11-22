@@ -10,30 +10,13 @@ import SwiftUI
 
 struct MenuCell: View {
     var transactionVM: TransactionViewModel
+    var categoryVM: CategoryListViewModel
     var body: some View {
+        
         HStack(alignment: .center, spacing: 50) {
             VStack {
-                if transactionVM.category.contains("Income") {
-                    Image(systemName: "dollarsign.square.fill").font(.system(size: 30))
-                } else if transactionVM.category.contains("transport") {
-                    Image(systemName: "bus").font(.system(size: 30))
-                }else if transactionVM.category.contains("Kids") {
-                    Image(systemName: "person").font(.system(size: 30))
-                } else if transactionVM.category.contains("Edu"){
-                    Image(systemName: "book").font(.system(size: 30))
-                } else if transactionVM.category.contains("Cafe") || transactionVM.category.contains("restaur") {
-                    Image(systemName: "wallet.pass").font(.system(size:30))
-                } else if transactionVM.category.contains("Product"){
-                    Image(systemName: "cart").font(.system(size:30))
-                } else if transactionVM.category.contains("Store") {
-                    Image(systemName: "bag").font(.system(size:30))
-                } else if transactionVM.category.contains("Pharmacy"){
-                    Image(systemName: "cross").font(.system(size:30))
-                } else if transactionVM.category.contains("Cinema"){
-                    Image(systemName: "film").font(.system(size:30))
-                } else {
-                    Image(systemName: "questionmark").font(.system(size: 30))
-                }
+                let imageName = categoryVM.categories.first{ transactionVM.category == $0.name}?.imageName ?? ""
+                Image(systemName: imageName).font(.system(size: 30))
             }.frame(width: 70, height: 50, alignment: .center)
             .position(x: 15, y: 25)
             VStack(alignment: .leading, spacing: 0) {
