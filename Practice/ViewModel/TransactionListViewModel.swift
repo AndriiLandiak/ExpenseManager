@@ -1,10 +1,3 @@
-//
-//  TransfersListViewModel.swift
-//  Practice
-//
-//  Created by Andrew Landiak on 23.04.2021.
-//
-
 import Foundation
 import SwiftUI
 import Combine

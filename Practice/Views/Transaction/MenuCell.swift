@@ -1,10 +1,3 @@
-//
-//  MenuCell.swift
-//  Practice
-//
-//  Created by Andrew Landiak on 21.04.2021.
-//
-
 import Foundation
 import SwiftUI
 

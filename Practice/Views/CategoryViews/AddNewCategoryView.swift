@@ -1,10 +1,3 @@
-//
-//  AddNewCategoryView.swift
-//  Practice
-//
-//  Created by Andrew Landiak on 01.05.2021.
-//
-
 import SwiftUI
 import Firebase
 struct AddNewCategoryView: View {

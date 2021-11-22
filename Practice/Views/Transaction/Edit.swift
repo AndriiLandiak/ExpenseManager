@@ -1,10 +1,3 @@
-//
-//  Edit.swift
-//  Practice
-//
-//  Created by Andrew Landiak on 23.04.2021.
-//
-
 import SwiftUI
 import Firebase
 

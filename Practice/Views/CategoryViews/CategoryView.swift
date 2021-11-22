@@ -1,10 +1,3 @@
-//
-//  Category.swift
-//  Practice
-//
-//  Created by Andrew Landiak on 30.04.2021.
-//
-
 import SwiftUI
 import Firebase
 struct CategoryView: View {

@@ -1,10 +1,3 @@
-//
-//  AccView.swift
-//  Practice
-//
-//  Created by Andrew Landiak on 03.05.2021.
-//
-
 import Foundation
 import SwiftUI
 import Firebase

@@ -1,10 +1,3 @@
-//
-//  CategoryIconCell.swift
-//  Practice
-//
-//  Created by Yuliia Sorokopud on 18.11.2021.
-//
-
 import SwiftUI
 
 struct CategoryColorCell: View {

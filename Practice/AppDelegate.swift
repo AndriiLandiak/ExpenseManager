@@ -1,10 +1,3 @@
-//
-//  AppDelegate.swift
-//  Practice
-//
-//  Created by Andrew Landiak on 19.04.2021.
-//
-
 import UIKit
 import CoreData
 import Firebase

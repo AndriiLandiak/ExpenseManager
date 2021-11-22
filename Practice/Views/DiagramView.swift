@@ -1,10 +1,3 @@
-//
-//  DiagramView.swift
-//  Practice
-//
-//  Created by Andrew Landiak on 03.05.2021.
-//
-
 import SwiftUI
 import Firebase
 

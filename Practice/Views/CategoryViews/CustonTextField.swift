@@ -1,10 +1,3 @@
-//
-//  CustonTextField.swift
-//  Practice
-//
-//  Created by Yuliia Sorokopud on 22.11.2021.
-//
-
 import SwiftUI
 
 struct CustonTextField: View {
