@@ -43,6 +43,7 @@
 		913DF25F274C3AB000B95E1F /* CustonTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913DF25E274C3AB000B95E1F /* CustonTextField.swift */; };
 		91B193CC2746DEFB00F7B660 /* IconsPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B193CB2746DEFA00F7B660 /* IconsPickerView.swift */; };
 		9C12DF2A68F1C460256D178F /* Pods_Practice.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF04D0310ACBC53A5BA3419C /* Pods_Practice.framework */; };
+		DFCF23EF274CDFB30071AFFC /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFCF23EE274CDFB30071AFFC /* AccountViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -86,6 +87,7 @@
 		91B193CB2746DEFA00F7B660 /* IconsPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconsPickerView.swift; sourceTree = "<group>"; };
 		A0E7192289FCA79A95E2C6A2 /* Pods-Practice.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Practice.debug.xcconfig"; path = "Target Support Files/Pods-Practice/Pods-Practice.debug.xcconfig"; sourceTree = "<group>"; };
 		CF04D0310ACBC53A5BA3419C /* Pods_Practice.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Practice.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DFCF23EE274CDFB30071AFFC /* AccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,6 +142,7 @@
 				66E485EB2639582500C99854 /* AddIncomeViewModel.swift */,
 				66551E1C264E7FB50094ED0F /* ImagePicker.swift */,
 				666493CD264068AC00552C46 /* CategoryViewModel */,
+				DFCF23EE274CDFB30071AFFC /* AccountViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -399,6 +402,7 @@
 				666493C3263C6C6D00552C46 /* CategoryDetail.swift in Sources */,
 				666493B8263C40FD00552C46 /* AddUpdateCategory.swift in Sources */,
 				662C9E5526526D74005D2B9F /* ManageData.swift in Sources */,
+				DFCF23EF274CDFB30071AFFC /* AccountViewModel.swift in Sources */,
 				666493A8263C237700552C46 /* PieSliceView.swift in Sources */,
 				6628028F2632F09500B8BD59 /* TransactionViewModel.swift in Sources */,
 				662802862632EBCC00B8BD59 /* Practice.xcdatamodeld in Sources */,
