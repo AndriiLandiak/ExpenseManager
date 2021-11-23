@@ -5,10 +5,11 @@ import Firebase
 struct AccountView: View {
     
     @ObservedObject var balanceVM = TransactionListViewModel()
+    @ObservedObject var accountVM = AccountViewModel()
 
     @State var showActionSheet: Bool = false
     @State var showImagePicker: Bool = false
-    @State var selectedImage: Image? = Image("")
+    @State var selectedImage: UIImage? = UIImage(contentsOfFile: "")
     @State var sourceType: UIImagePickerController.SourceType = .photoLibrary
     @State var addNewCategory: Bool
     @State var notDeleted: Bool = true
@@ -19,13 +20,14 @@ struct AccountView: View {
             Button {
                 self.showActionSheet = true
             } label: {
-                if selectedImage != Image("") {
-                    self.selectedImage?.resizable().clipShape(Circle()).frame(width: 150, height: 150).overlay(Circle().stroke(Color("AuthorizationColor"), lineWidth: 3))
-                }else if user == "andriylandiak@gmail.com" && notDeleted && selectedImage == Image("") {
-                    Image("me").resizable().frame(width: 150, height: 150).clipShape(Circle()).overlay(Circle().stroke(Color("AuthorizationColor"), lineWidth: 3))
+                if selectedImage != UIImage(contentsOfFile: "") {
+                    
+                    Image(uiImage: self.selectedImage!).resizable().clipShape(Circle()).frame(width: 150, height: 150).overlay(Circle().stroke(Color("AuthorizationColor"), lineWidth: 3))
+                   
                 } else {
-                    Image(systemName: "person.circle").resizable().frame(width: 150, height: 150).clipShape(Circle()).overlay(Circle().stroke(Color("AuthorizationColor"), lineWidth: 0))
+                    Image(uiImage: self.accountVM.getPhoto(user: user)).resizable().clipShape(Circle()).frame(width: 150, height: 150).overlay(Circle().stroke(Color("AuthorizationColor"), lineWidth: 3))
                 }
+
             }
             .frame(width:200, height: 200)
             .padding(.top, 20)
@@ -37,11 +39,14 @@ struct AccountView: View {
                                 }),
                                 .default(Text("Delete photo"), action: {
                                     notDeleted = false
-                                    self.selectedImage = Image("")
+                                    self.selectedImage = UIImage(contentsOfFile: "")
                                 }),
                     .cancel()
                 ])
-            }.accentColor(Color("AuthorizationColor"))
+            }.accentColor(Color("AuthorizationColor")).onChange(of: selectedImage) { [selectedImage] newState in
+                accountVM.savePhoto(photo: self.selectedImage!, user: self.user)
+            }
+
             Text(Auth.auth().currentUser?.email ?? "").foregroundColor(Color("AuthorizationColor"))
                 .font(.system(size: 25))
                 .padding(.top, 10)

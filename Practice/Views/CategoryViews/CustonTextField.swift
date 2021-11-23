@@ -26,7 +26,7 @@ struct CustomViewModifier: ViewModifier {
             .padding(3)
             .foregroundColor(textColor)
             .overlay(RoundedRectangle(cornerRadius: roundedCornes)
-                        .stroke(.blue ,lineWidth: 1))
+                        .stroke(Color.blue ,lineWidth: 1))
             .font(.custom("Open Sans", size: 18))
             .shadow(radius: 10)
     }
